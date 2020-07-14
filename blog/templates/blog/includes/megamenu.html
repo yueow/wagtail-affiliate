@@ -1,0 +1,276 @@
+{% load static menu_tags wagtailcore_tags wagtailimages_tags %}
+
+<!-- Subnav -->
+<div class='subnav'>
+    <ul class='container'>
+
+    <!-- TODO 1) Reverse li and a tags -->
+    {% for item in menu.menu_items.all %}
+        
+        {% if item.dropdown %}
+            <li class='megamenu-dropdown'>
+            <a href="#">{{ item.title }}</a>
+            <div class="megamenu-dropdown-area">
+
+            {% comment %} Header {% endcomment %}
+            {% if item.has_header %}
+                <!-- Megamenu Header -->
+                <div class="megamenu-dropdown-header">
+                    <div class="row">
+                        {% for header in item.menu_item_header.all %}
+                        {% comment %} Стоит ли добавлять size??/ {% endcomment %}
+                        <div class="col s3">
+                            <p>{{ header.header_title }}</p>
+                            <hr>
+                        </div>
+                        {% endfor %}
+             
+                    </div>
+                </div>
+                <!-- /Megamenu Header -->
+            {% endif %}
+            {% comment %} /Header {% endcomment %}
+                
+
+            {% if item.has_content %}
+                <!-- Megamenu Content -->
+                <ul class="megamenu-dropdown-content">
+                
+                    {% for content_col in item.menu_item_content.all %}
+                    <ul>
+                        {% if content_col.column_title %}<h4>{{ content_col.column_title }}</h4>{% endif %}
+                        
+                        {% for col_row in content_col.column_row.all %}
+                            <li><a
+                            {% if col_row.row_page %}href="{% pageurl col_row.row_page %}"
+                            {% elif col_row.row_page %}href="{% pageurl col_row.row_page %}"
+                            {% elif col_row.row_link %}href="{{ col_row.row_link }}"
+                            {% else %}href="#"{% endif %}>{{ col_row.row_title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% endfor %}
+                        
+                    <ul>
+                        <h4>Kids Gym Wear</h4>
+                        <li><a href="#">Kids Gym Leggings</a></li>
+                        <li><a href="#">Kids Base Layers</a></li>
+                        <li><a href="#">Pants & Shorts</a></li>
+                        <li><a href="#">Kids Gym Tops</a></li>
+                        <li><a href="#">Kids Hoodies</a></li>
+                        <li><a href="#">Kids Tracksuits</a></li>
+                    </ul>
+        
+                    <ul>
+                        <h4>Gym Equipment</h4>
+                        <li><a href="#">Sports Nutrition</a></li>
+                        <li><a href="#">Protein</a></li>
+                        <li><a href="#">Balanced Diet</a></li>
+                        <li><a href="#">All Home Gym Equipment</a></li>
+                        <li><a href="#">Weights & Dumbells</a></li>
+                        <li><a href="#">Weight Benches & Multi Gyms</a></li>
+                        <li><a href="#">All Home Gym Equipment</a></li>
+                    </ul>
+        
+        
+                    <ul>
+                        <h4>Gym Trainers</h4>
+                        <li><a href="#">Mens Gym Trainers</a></li>
+                        <li><a href="#">Fitness Watches & Pedometers</a>
+                        </li>
+                        <li><a href="#">Ladies Gym Trainers</a></li>
+                        <li><a href="#">Gym Bags & Sacks</a></li>
+                        <li><a href="#">Sweatbands & Gym Towels</a></li>
+                        <li><a href="#">Gym Gloves</a></li>
+                        <li><a href="#">Kids Gym Trainers</a></li>
+                    </ul>
+                    
+                    
+                </ul>
+                <!-- /Megamenu Content -->
+                {% else %}
+                <ul class="megamenu-dropdown-content">
+                    <li>
+                        <h1>No Content</h1>
+                    </li>
+                </ul>
+                {% endif %}
+                        
+                
+                {% if item.has_footer %}
+                <!-- Megamenu Footer -->
+                <div class="megamenu-dropdown-footer">
+                    <div class="row">
+                        {% if item.menu_footer.first.footer_title %}
+                        <div class="col megamenu-dropdown-footer-title">
+                            <p><a href="{{ item.menu_footer.first.footer_link }}">{{ item.menu_footer.first.footer_title }}</a></p>
+                        </div>
+                        {% endif %}
+
+                        {% for footer_col in item.menu_footer.first.menu_footer_items.all %}
+                        <div class="col">
+
+                            <!-- Card -->
+                            <div class='megamenu-dropdown-footer-card'>
+                                {% image footer_col.image original as img %}
+                                <a href="{{ footer_col.footer_item_link }}">
+                                    <img src="{{ img.url }}" alt="{{ img.alt }}">
+                                    <p>{{ footer_col.footer_item_title }}</p>
+                                </a></div>
+                            <!-- /Card -->
+                        </div>
+                        {% endfor %}
+                        <div class="col">
+                            <!-- Card -->
+                            <div class='megamenu-dropdown-footer-card'><a
+                                    href="#">
+                                    <img src="https://static.highsnobiety.com/thumbor/qc2bAYLhz6nkeiP9rkMNUDQHmzM=/fit-in/1200x720/smart/static.highsnobiety.com/wp-content/uploads/2020/01/24224817/the-gentlemen-movie-style-0.jpg"
+                                        alt="">
+                                    <p>Lonsdale X The Gentlemen</p>
+                                </a></div>
+                            <!-- /Card -->
+                        </div>
+                        <div class="col">
+                            <!-- Card -->
+                            <div class='megamenu-dropdown-footer-card'><a
+                                    href="#">
+                                    <img src="https://cdn.shopify.com/s/files/1/0076/6033/9297/products/Black-Vortex-Leggings-4_1600x.jpg?v=1582721747"
+                                        alt="">
+                                    <p>Women Sportswear</p>
+                                </a></div>
+                            <!-- /Card -->
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /Megamenu footer -->
+                {% endif %}
+            </div>
+
+            </li>    
+        {% else %}
+            <li><a href="{{ item.link }}" {% if item.open_in_new_tab %} target="_blank"{% endif %}>{{ item.title }}</a></li>
+        {% endif %}
+    {% endfor %}
+        <li><a href="#">Mens</a></li>
+        <li><a href="#">Ladies</a></li>
+        <li><a href="#">Accessories</a></li>
+
+        <li><a href="">Brands</a></li>
+        <li><a href="">Kids</a></li>
+        <li><a href="">Sports</a></li>
+        <li><a href="">Football</a></li>
+        <li><a href="">Running</a></li>
+
+        <li class='megamenu-dropdown'>
+            <a href="#">Fitness</a>
+            <div class="megamenu-dropdown-area">
+
+                <!-- Megamenu Header -->
+                <div class="megamenu-dropdown-header">
+                    <div class="row">
+                        <div class="col s7">
+                            <p>Gym Clothing</p>
+                            <hr>
+                        </div>
+                        <div class="col s5">
+                            <p>Footwear</p>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Megamenu Header -->
+
+                <!-- Megamenu Content -->
+                <ul class="megamenu-dropdown-content">
+                    <ul>
+                        <h4>Mens Gym Wear</h4>
+                        <li><a href="#">Mens Gym Leggings and Pants</a></li>
+                        <li><a href="#">Mens Gym Shorts</a></li>
+                        <li><a href="#">Mens Gym Tops</a></li>
+                        <li><a href="#">Mens Hoodies</a></li>
+                        <li><a href="#">Mens Tracksuits</a></li>
+                        <h4>Kids Gym Wear</h4>
+                        <li><a href="#">Kids Gym Leggings</a></li>
+                        <li><a href="#">Kids Base Layers</a></li>
+                        <li><a href="#">Pants & Shorts</a></li>
+                        <li><a href="#">Kids Gym Tops</a></li>
+                        <li><a href="#">Kids Hoodies</a></li>
+                        <li><a href="#">Kids Tracksuits</a></li>
+                    </ul>
+
+                    <ul>
+                        <h4>Gym Equipment</h4>
+                        <li><a href="#">Sports Nutrition</a></li>
+                        <li><a href="#">Protein</a></li>
+                        <li><a href="#">Balanced Diet</a></li>
+                        <li><a href="#">All Home Gym Equipment</a></li>
+                        <li><a href="#">Weights & Dumbells</a></li>
+                        <li><a href="#">Weight Benches & Multi Gyms</a></li>
+                        <li><a href="#">All Home Gym Equipment</a></li>
+                    </ul>
+
+
+                    <ul>
+                        <h4>Gym Trainers</h4>
+                        <li><a href="#">Mens Gym Trainers</a></li>
+                        <li><a href="#">Fitness Watches & Pedometers</a>
+                        </li>
+                        <li><a href="#">Ladies Gym Trainers</a></li>
+                        <li><a href="#">Gym Bags & Sacks</a></li>
+                        <li><a href="#">Sweatbands & Gym Towels</a></li>
+                        <li><a href="#">Gym Gloves</a></li>
+                        <li><a href="#">Kids Gym Trainers</a></li>
+                    </ul>
+                    <!-- /Megamenu Content -->
+
+
+                </ul>
+                <!-- Megamenu Footer -->
+                <div class="megamenu-dropdown-footer">
+                    <div class="row">
+                        <div class="col megamenu-dropdown-footer-title">
+                            <p>Trending</p>
+                        </div>
+                        <div class="col">
+
+                            <!-- Card -->
+                            <div class='megamenu-dropdown-footer-card'><a
+                                    href="#">
+                                    <img src="https://retaildesignblog.net/wp-content/uploads/2014/05/Nike-Sportswear-2014-Spring-Summer-Tech-Pack.jpg"
+                                        alt="">
+                                    <p>Nike sport</p>
+                                </a></div>
+                            <!-- /Card -->
+                        </div>
+                        <div class="col">
+                            <!-- Card -->
+                            <div class='megamenu-dropdown-footer-card'><a
+                                    href="#">
+                                    <img src="https://static.highsnobiety.com/thumbor/qc2bAYLhz6nkeiP9rkMNUDQHmzM=/fit-in/1200x720/smart/static.highsnobiety.com/wp-content/uploads/2020/01/24224817/the-gentlemen-movie-style-0.jpg"
+                                        alt="">
+                                    <p>Lonsdale X The Gentlemen</p>
+                                </a></div>
+                            <!-- /Card -->
+                        </div>
+                        <div class="col">
+                            <!-- Card -->
+                            <div class='megamenu-dropdown-footer-card'><a
+                                    href="#">
+                                    <img src="https://cdn.shopify.com/s/files/1/0076/6033/9297/products/Black-Vortex-Leggings-4_1600x.jpg?v=1582721747"
+                                        alt="">
+                                    <p>Women Sportswear</p>
+                                </a></div>
+                            <!-- /Card -->
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /Megamenu footer -->
+            </div>
+
+        </li>
+        <li><a href="">Training</a></li>
+        <li><a href="">USC</a></li>
+    </ul>
+</div>
+<!-- /Subnav -->

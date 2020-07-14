@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% load static wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block title %} {{ page.title }} {% endblock title %}
+
+{% block extra_css %}
+<!-- <link rel="stylesheet" href="{% static 'css/welcome_page.css' %}"> -->
+<link rel="stylesheet" href="{% static 'css/home_page.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+
+<div class="container">
+
+  <!-- Slideshow container -->
+  {% include 'home/includes/slider.html' with slider_items=page.slider_items.all %}
+  <br>
+
+  <!-- The dots/circles -->
+  <div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+  </div>
+</div>
+
+<!-- Featured section -->
+<section>
+  <div class="container">
+
+    <!-- Section Title -->
+    <div class="section-title">
+      <hr>
+      <h2>Featured</h2>
+      <hr>
+    </div>
+    <!-- /Section Title -->
+    {% include 'blog/includes/cards.html' with blogs=featured_posts %}
+
+
+    <!-- Pagination -->
+    <div class="pagination-block">
+      <a href='{% slugurl "all_categories" %}'>Discover more</a>
+    </div>
+    <!-- /Pagination -->
+  </div>
+</section>
+<!-- /Featured section -->
+
+
+<article>
+  <div class="container">
+    <img width='700'
+      src="https://www.searchpng.com/wp-content/uploads/2019/01/Smart-Sports-Watch-PNG.png"
+      alt="">
+    <div class='article-content'>
+      <h3>Best selling Product</h3>
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit
+        minima enim ducimus? Nulla sint voluptate et sit error totam
+        repudiandae, repellat ex neque assumenda molestias facilis omnis quo
+        expedita quae.
+
+      </p>
+      <a href="" class="article-cta ">Get</a>
+    </div>
+  </div>
+</article>
+
+<!-- Latest Posts section -->
+<section class='post-section'>
+  <div class="container">
+
+
+    <!-- Section Title -->
+    <div class="section-title">
+      <hr>
+      <h2>Latest Posts</h2>
+      <hr>
+    </div>
+    <!-- /Section Title -->
+
+
+    {% include 'blog/includes/cards.html' with blogs=latest_posts %}
+
+    <!-- Pagination -->
+    <div class="pagination-block">
+      <a href='{% slugurl "all_categories" %}'>Discover more</a>
+    </div>
+    <!-- /Pagination -->
+
+  </div>
+
+</section>
+<!-- /Latest Posts Section -->
+
+
+
+
+
+<script>
+  var slideIndex = 1;
+  showSlides(slideIndex);
+
+  // Next/previous controls
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  // Thumbnail image controls
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {
+      slideIndex = 1
+    }
+    if (n < 1) {
+      slideIndex = slides.length
+    }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+  }
+</script>
+{% endblock content %}

@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+
+
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/category_page.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class='container'>
+	<!-- Header -->
+	<header>
+		<div class='header-content'>
+
+			<h1>
+				{% if search_term  %}Search Results for<span>:
+					{{ search_term }}</span>
+				{% elif filter_term %}<span>Categories</span>
+				{% else %}{{ page.title }}{% endif %}
+			</h1>
+			<hr>
+		</div>
+	</header>
+	<!-- /Header -->
+
+
+
+	<!-- Filter Box -->
+	<form id='filter-box-form' action="{% routablepageurl page 'filtering_ajax' %}" method="GET">
+		<div class='filter-box'>
+			<!-- Select 1 -->
+			<div class="input-field">
+				<select class='dropdown-category' name='categories-input'
+					id='categories-input'>
+					<option value="all" selected>All Categories</option>
+					{% for category in page.categories %}
+					<option value="{{ category.pk }}">
+						{{ category.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<!--  -->
+			<!-- Select 2 -->
+			<div class="input-field">
+				<select class='dropdown-category z-depth-4' name='post-input'
+					id='post-input'>
+					<option value="all" selected>All Posts</option>
+					<option value="product-posts">Product Posts</option>
+				</select>
+			</div>
+			<!--  -->
+
+			<p>
+				<a id='newest-check-link' name='newest' href="#">Newest</a>
+			</p>
+			<p>
+				<a id='featured-check-link' name='featured' href="#">Featured</a>
+			</p>
+			<p>
+				<a id='updates-check-link' name='updates' href="#">Updates</a>
+			</p>
+		</div>
+	</form>
+	<!-- /Filter Box -->
+
+
+	<!-- Content -->
+	<section>
+		<!-- Row -->
+		{% include 'blog/includes/cards.html' with bonuses=bonuses %}
+
+	</section>
+	<!-- /Content -->
+
+</div>
+<script>
+	$(document).ready(function () {
+		$('select').formSelect();
+	});
+</script>
+<!-- Waypoints -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/infinity/0.2.2/infinity.min.js">
+</script>
+<script src="{% static 'js/jquery.waypoints.min.js' %}">
+</script>
+<script src="{% static 'js/shortcuts/infinite.min.js' %}">
+</script>
+
+<script>
+	const filtering_endpoint = $('#filter-box-form').attr('action');
+	console.log(filtering_endpoint);
+
+	// Infinite Scroll
+	let infinite = new Waypoint.Infinite({
+		element: $('.infinite-container')[0],
+		handler: function (direction) {
+
+		},
+		offset: 'bottom-in-view',
+
+		onBeforePageLoad: function () {
+			$('.spinner-border').show();
+		},
+		onAfterPageLoad: function () {
+			$('.spinner-border').hide();
+		}
+
+	});
+
+	// AJAX Filtering
+	let send_form_data = function(form_id, params) {
+		let form_data = $(form_id).serializeArray();
+		console.log('send_form_data invoked!')
+		
+		$.getJSON(filtering_endpoint, params)
+		.done(response => {
+			$('section').fadeTo('slow', 0).promise().then(() => {
+				// replace the HTML contents
+				$('section').html(response['html_from_view'])
+				$('section').fadeTo('slow', 1)
+			})
+		})
+	}
+
+	$('#categories-input').on('change', function(e) {
+		let form_data = $(this).serializeArray();
+		// console.log(form_data);
+		send_form_data('#filter-box-form', {'filter':true, 'form_data': JSON.stringify(form_data)});
+	});
+	$('#post-input').on('change', function(e) {
+		let form_data = $(this).serializeArray();
+		// console.log(form_data);
+		send_form_data('#filter-box-form', {'filter':true, 'form_data': JSON.stringify(form_data)});
+	});
+
+	// Link Checkboxes 
+	$('#newest-check-link').on('click', function(e) {
+		let form_data = $(this).serializeArray();
+		send_form_data('#filter-box-form', {'filter':true, 'newest':true, 'form_data': JSON.stringify(form_data)});
+	});
+
+	$('#featured-check-link').on('click', function(e) {
+		let form_data = $(this).serializeArray();
+		send_form_data('#filter-box-form', {'filter':true, 'featured':true,'form_data': JSON.stringify(form_data)});
+	});
+
+	$('#latest-check-link').on('click', function(e) {
+		let form_data = $(this).serializeArray();
+		send_form_data('#filter-box-form', {'filter':true, 'latest':true, 'form_data': JSON.stringify(form_data)});
+	});
+	
+
+	// $('#filter-box-form').on('submit', function (e) {
+	// 	e.preventDefault();
+	// 	let form_data = $(this).serializeArray();
+	// 	ajax_call(filter_endpoint, {
+	// 		'filter': true,
+	// 		'form_data': JSON.stringify(form_data)
+	// 	});
+
+	// });
+</script>
+
+
+
+{% endblock content %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}

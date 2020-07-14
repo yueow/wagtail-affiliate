@@ -1,0 +1,24 @@
+
+{% load wagtailimages_tags wagtailembeds_tags %}
+
+{% if slider_items %}
+<div class="slideshow-container">
+
+{% for slider_item in slider_items %}
+  <div class="mySlides fade">
+    <!-- <div class="numbertext">2 / 3</div> -->
+    {% image slider_item.image original as imageslider %}
+    <img src='{{ imageslider.url }}' alt={{ imageslider.alt }}>
+    <div class="text">
+      <p class="slide-cat">{{ slider_item.cat }}</p>
+      <h2>{{ slider_item.title }}</h2>
+      <a href="{{ slider_item.link }}">Read more</a>
+    </div>
+</div>
+{% endfor %}
+
+  <!-- Next and previous buttons -->
+  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+{% endif %}

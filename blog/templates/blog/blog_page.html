@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block body_class %}template-blog_page{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/blog_page.css' %}">
+<link type="text/css" rel="stylesheet"
+    href="{% static 'css/lightslider.min.css' %}" />
+
+{% endblock extra_css %}
+
+
+{% block content %}
+<div class="container">
+    <!-- Breadcrumb -->
+    <nav class='breadcrumb-wrapper white'>
+        <div class="nav-wrapper">
+            <div class="col s12">
+                <a href="{{ page.get_parent.url }}" class="breadcrumb">Home</a>
+                <a href="#!" class="breadcrumb">Tech</a>
+                <a href="#" class="breadcrumb">{{ page.title }}</a>
+            </div>
+        </div>
+    </nav>
+    <!-- /Breadcrumb -->
+
+    <div class="row content-mob">
+        <div class="col m8">
+            <div class="demo">
+                <ul id="lightSlider">
+                    {% for image in page.gallery_images.all %}
+                    {% image image.image original as image_inst %}
+                    <li
+                        data-thumb="{{ image_inst.url }}">
+                        <img
+                            src="{{ image_inst.url }}" alt="{{ image_inst.alt }}" />
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- /Gallery -->
+            <h4 class='bold-text'>{{ page.title }}</h4>
+            <p>{{ page.body|richtext }}</p>
+            
+            {% comment %} <h4 class='bold-text'>Lorem Title</h4>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
+                pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
+                non et tempora excepturi illo ullam molestias praesentium velit
+                eveniet sunt. Quam, aspernatur.
+
+            </p>
+            <h4 class='bold-text'>Product Features</h4>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
+                pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
+                non et tempora excepturi illo ullam molestias praesentium velit
+                eveniet sunt. Quam, aspernatur.
+
+            </p>
+            <h4 class='bold-text'>Benefits</h4>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
+                pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
+                non et tempora excepturi illo ullam molestias praesentium velit
+                eveniet sunt. Quam, aspernatur.
+
+            </p>
+            <h4 class='bold-text'>Downsides</h4>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
+                pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
+                non et tempora excepturi illo ullam molestias praesentium velit
+                eveniet sunt. Quam, aspernatur.
+
+            </p> {% endcomment %}
+
+            <div style='margin-inline: auto; width: 300px;'>
+                <a href=""
+                    class="btn orange waves-effect bold-text section-btn">Check
+                    price {% if page.affiliate_name %}on {{ page.affiliate_name }} {% endif %}</a>
+            </div>
+
+        </div>
+
+        <!-- Second section -->
+        <div class="col m4">
+            <a href=""
+                class="btn orange waves-effect bold-text section-btn btn-hide">Check
+                price {% if page.affiliate_name %}on {{ page.affiliate_name }} {% endif %}</a>
+
+            <!-- Section Title -->
+            <div class="section-title">
+                <hr>
+                <h2>Featured</h2>
+                <hr>
+            </div>
+            <!-- /Section Title -->
+
+            <!-- Social Buttons -->
+            <div class="social-buttons">
+                {% if page.facebook_link %}
+                <!-- facebook  Button -->
+                <a href="{{ page.facebook_link }}" target="blank"
+                    class="social-margin">
+                    <div class="social-icon facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                </a>
+                {% endif %}
+                {% if page.pinterest_link %}
+                <!-- pinterest  Button -->
+                <a href="{{ page.pinterest_link }}" target="blank"
+                    class="social-margin">
+                    <div class="social-icon pinterest">
+                        <i class="fab fa-pinterest-p"></i>
+                    </div>
+                </a>
+                {% endif %}
+                {% if page.youtube_link %}
+                <!-- youtube  Button -->
+                <a href="{{ page.youtube_link }}" target="blank"
+                    class="social-margin">
+                    <div class="social-icon youtube">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </a>
+                {% endif %}
+                {% if page.twitter_link %}
+                <!-- twitter  Button -->
+                <a href="{{ page.twitter_link }}" target="blank"
+                    class="social-margin">
+                    <div class="social-icon twitter">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                </a>
+                {% endif %}
+
+            </div>
+            <!-- /Social Buttons -->
+
+            <p><a class='btn black white-text waves-effect bold-text section-btn'
+                    href="#">Embed</a></p>
+
+            <p><a class='btn white-text section-btn sub-btn' href="#subscribe-section-anchor">Sign Up
+                    for our newsletter</a></p>
+
+
+            <div class='overview z-depth-4'>
+                <p class='overview-header'>Overview</p>
+                <p class='overview-p'><span class="grey-text">Category</span>
+                    #TECH</p>
+                <p class='overview-p'><span class="grey-text">Brand</span> Apple
+                </p>
+                <p class='overview-p'><span class="grey-text">Model</span>
+                    Iphone XS</p>
+                <p class='overview-p'><span class="grey-text">Color</span> White
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Section Title -->
+    <div class="section-title">
+        <hr>
+        <h2>Related Products</h2>
+        <hr>
+    </div>
+    <!-- /Section Title -->
+
+    <!-- Row -->
+    <div class="row">
+
+        <!-- Column -->
+        <div class="col">
+            <div class="card">
+                <a href="#">
+                    <div class="card-image">
+                        <img
+                            src="https://ae01.alicdn.com/kf/HTB1gAQpKbSYBuNjSspfq6AZCpXaH.jpg?width=1200&height=1200&hash=2400">
+                    </div>
+                    <div class="card-content">
+                        <p class="card-category">#home</p>
+                        <hr>
+                        <p class='card-title'>Coega Ladies Active Tights-Red<p>
+                                <p class='card-cta'><a href="#123">see more</a>
+                                </p>
+                    </div>
+            </div>
+            </a>
+        </div>
+        <!-- /Column -->
+
+        <!-- Column -->
+        <div class="col">
+            <div class="card">
+                <a href="#">
+                    <div class="card-image">
+                        <img
+                            src="https://ae01.alicdn.com/kf/HTB1gAQpKbSYBuNjSspfq6AZCpXaH.jpg?width=1200&height=1200&hash=2400">
+                    </div>
+                    <div class="card-content">
+                        <p class="card-category">#home</p>
+                        <hr>
+                        <p class='card-title'>Coega Ladies Active Tights-Red<p>
+                                <p class='card-cta'><a href="#123">see more</a>
+                                </p>
+                    </div>
+            </div>
+            </a>
+        </div>
+        <!-- /Column -->
+
+        <!-- Column -->
+        <div class="col">
+            <div class="card">
+                <a href="#">
+                    <div class="card-image">
+                        <img
+                            src="https://ae01.alicdn.com/kf/HTB1gAQpKbSYBuNjSspfq6AZCpXaH.jpg?width=1200&height=1200&hash=2400">
+                    </div>
+                    <div class="card-content">
+                        <p class="card-category">#home</p>
+                        <hr>
+                        <p class='card-title'>Coega Ladies Active Tights-Red<p>
+                                <p class='card-cta'><a href="#123">see more</a>
+                                </p>
+                    </div>
+            </div>
+            </a>
+        </div>
+        <!-- /Column -->
+
+    </div>
+    <!-- /Row -->
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/lightslider.min.js' %}"></script>
+<script type="text/javascript">
+    $('#lightSlider').lightSlider({
+        gallery: true,
+        item: 1,
+        loop: true,
+        slideMargin: 0,
+        thumbItem: 9
+    });
+</script>
+
+{% endblock %}

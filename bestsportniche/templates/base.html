@@ -1,0 +1,409 @@
+{% load static menu_tags wagtailuserbar wagtailcore_tags %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>
+		{% block title %}
+		{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+		{% endblock %}
+		{% block title_suffix %}
+		{% with self.get_site.site_name as site_name %}
+		{% if site_name %}- {{ site_name }}{% endif %}
+		{% endwith %}
+		{% endblock %}
+	</title>
+	<meta name="description" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+		media="screen,projection">
+
+	<!-- JQuery -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+
+	<!-- Font Awesome -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js">
+	</script>
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet">
+
+	<!-- Social Buttons -->
+	<link type="text/css" rel="stylesheet"
+		href="{% static 'scss/social-buttons.css' %}" />
+
+
+
+	<!-- Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
+		rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+		rel="stylesheet">
+
+
+	{% comment %} <script
+		src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.5/waypoints.min.js">
+	</script> {% endcomment %}
+
+	<!-- Global stylesheets -->
+	<link rel="stylesheet" type="text/css"
+		href="{% static 'css/bestsportniche.css' %}">
+
+	{% block extra_css %}
+	{% endblock %}
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+	{% wagtailuserbar %}
+	<div class="navbar-fixed nav-wrapper-out">
+		<nav class='white'>
+			<div class="nav-wrapper container">
+				<a href="{{ page.get_site.root_url }}" class="brand-logo">
+					<img src="{% static 'img/eagle_logo.png' %}" alt="">
+					<span>Bestsportniche</span></a>
+
+				<a href="#" data-target="mobile-demo"
+					class="sidenav-trigger black-text"><i
+						class="material-icons">menu</i></a>
+
+
+
+				<ul class="right hide-on-med-and-down">
+
+					<!-- <li><a href="collapsible.html"><i class="fas fa-search"></i></a></li> -->
+
+
+
+					<li>
+						<!-- Social Buttons -->
+						<div class="social-buttons social-buttons-nav">
+							<!-- facebook  Button -->
+							<a href="http://www.facebook.com" target="blank"
+								class="">
+								<div class="social-icon facebook">
+									<i class="fab fa-facebook-f"></i>
+								</div>
+							</a>
+							<!-- pinterest Button -->
+							<a href="https://pinterest.com/" target="blank"
+								class="">
+								<div class="social-icon pinterest">
+									<i class="fab fa-pinterest-p"></i>
+								</div>
+							</a>
+							<!-- Youtube Button -->
+							<a href="http://youtube.com/" target="blank"
+								class="">
+								<div class="social-icon youtube">
+									<i class="fab fa-youtube"></i>
+								</div>
+							</a>
+
+							<!-- TwitterButton -->
+							<a href="http://twitter.com/" target="blank"
+								class="">
+								<div class="social-icon twitter">
+									<i class="fab fa-twitter"></i>
+								</div>
+							</a>
+						</div>
+						<!-- /Social Buttons -->
+
+
+
+					</li>
+					<!-- Nav Searchbar -->
+					<li>
+						<div class="search-container">
+							<form role="search" method="get"
+								action="{% slugurl 'all_categories' %}">
+								<input type="text" placeholder="Search.."
+									name="q">
+								<button type="submit"><i
+										class="fa fa-search"></i></button>
+							</form>
+						</div>
+
+					</li>
+
+				</ul>
+
+
+			</div>
+		</nav>
+	</div>
+	<!-- /Nav -->
+
+
+
+
+	{% comment %} Megamenu {% endcomment %}
+	{% get_menu "subnav-megamenu" as menu %}
+	{% include 'blog/includes/megamenu.html' with menu=menu %}
+
+{% comment %} /Megamenu {% endcomment %}
+
+
+<!-- Implement Social Buttons using tags -->
+{% comment %} {% get_socailbuttons "subnav-megamenu" as navigation %} {% endcomment %}
+
+	{% block content %}{% endblock %}
+
+
+	<!-- Subscribe Section -->
+	<div id='subscribe-section-anchor' class="subscribe-section-wrapper">
+		<div class="container subscribe-section z-depth-4">
+			<p>The best</p>
+			<h4>Daily Tips in your Inbox</h4>
+			<hr>
+			<p>Straight to your Inbox</p>
+
+			<form>
+				<div class="subscribe-input-field">
+					<input id="subscribe" type="email"
+						placeholder="Enter your email">
+
+					<p>
+						<label>
+							<input type="checkbox" checked="checked" />
+							<span class='black-text'>I confirm I wish to sign up
+								to the mailing list</span>
+						</label>
+					</p>
+					<button class='btn' type="submit">Join Now</button>
+				</div>
+			</form>
+
+		</div>
+
+	</div>
+	<!-- Subscribe section -->
+
+	<!-- Footer -->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">
+						<a href="#!" class="brand-logo brand-logo-footer">
+							<img src="{% static 'img/eagle_logo.png' %}" alt="">
+							<span>Bestsportniche</span></a>
+
+					</h5>
+					<p class="grey-text text-lighten-4">
+						Bestsportniche.com is Pakistan's premier sports shopping
+						website. Genuine Products, Competitive Prices, Local and
+						International Brands, everything that you wanted in a
+						Sports Shop. From the comforts of your home, enjoy the
+						best shopping experience.
+					</p>
+				</div>
+				<div class="col l4 offset-l2 s12">
+					<h5 class="white-text">Categories</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Aerobics</a></li>
+					</ul>
+				</div>
+
+				<div class="col l4 offset-l2 s12">
+					<h5 class="white-text">About</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3" href="#!">About
+								Us</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Affiliate</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Contact</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Policy</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Policy</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Policy</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Policy</a></li>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">Policy</a></li>
+					</ul>
+				</div>
+
+				<div class="col l4 offset-l2 s12">
+					<div>
+						<h4 class='white-text bold-text'>Follow Us</h4>
+						<!-- Social Buttons -->
+						<div class="social-buttons social-buttons-nav black">
+							<!-- facebook  Button -->
+							<a href="http://www.facebook.com" target="blank"
+								class="">
+								<div class="social-icon facebook">
+									<i class="fab fa-facebook-f"></i>
+								</div>
+							</a>
+							<!-- pinterest Button -->
+							<a href="https://pinterest.com/" target="blank"
+								class="">
+								<div class="social-icon pinterest">
+									<i class="fab fa-pinterest-p"></i>
+								</div>
+							</a>
+							<!-- Youtube Button -->
+							<a href="http://youtube.com/" target="blank"
+								class="">
+								<div class="social-icon youtube">
+									<i class="fab fa-youtube"></i>
+								</div>
+							</a>
+
+							<!-- TwitterButton -->
+							<a href="http://twitter.com/" target="blank"
+								class="">
+								<div class="social-icon twitter">
+									<i class="fab fa-twitter"></i>
+								</div>
+							</a>
+						</div>
+						<!-- /Social Buttons -->
+					</div>
+					<h5 class="white-text bold-text">Contact</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3"
+								href="#!">info@bestsportniche.pk</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">(+92)
+								03-111-11-88-77</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">(+92)
+								03-102-23-09-60</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">(+92)
+								03-102-23-09-60</a></li>
+					</ul>
+
+					<img width='100'
+						src="https://www.kaspersky.com/content/en-global/images/product_icon_KISA.png"
+						alt="">
+
+				</div>
+
+
+
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container bold-text">
+				© 2020 All Rights Reserved. Powered by Bestsportniche
+			</div>
+		</div>
+	</footer>
+	<!-- /Footer -->
+
+	<script type="text/javascript" src="{% static 'js/bestsportniche.js' %}">
+	</script>
+	<!-- materialize -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+	</script>
+
+	<!-- underscore.js -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.10.2/underscore-min.js">
+	</script>
+
+
+
+	<!-- megamenu js -->
+	<script>
+		$(document).ready(function () {
+
+
+			let mobMenu = function () {
+				$('.nav-wrapper').toggleClass('nav-ul-mob');
+				$('.nav-wrapper>ul').toggleClass('hide-on-med-and-down');
+				$('.nav-wrapper-out').toggleClass('navbar-fixed');
+
+				$('.subnav').toggleClass('subnav-mob');
+				// $('.subnav').toggleClass('subnav-mob-visible');
+				$('.megamenu-dropdown-area').toggleClass(
+					'megamenu-dropdown-area-mob');
+
+			}
+
+			// Sidenav trigger button
+			$('.sidenav-trigger').on('click', mobMenu)
+
+			// Megamenu dropdown button
+			$('.megamenu-dropdown').on('click', function () {
+				$('.megamenu-dropdown-area').toggleClass(
+					'megamenu-dropdown-area-active');
+				$('.megamenu-dropdown').toggleClass(
+					'megamenu-dropdown-active');
+			})
+
+
+			function fixNav(win) {
+				if (window.innerWidth >= 992 && !($('.nav-wrapper-out')
+						.hasClass('navbar-fixed'))) {
+					$('.nav-wrapper-out').addClass('navbar-fixed');
+					// $('.subnav').removeClass('subnav-mob-hidden');
+					console.log('fixNav');
+				}
+				if (window.innerWidth < 992 && $('.nav-wrapper').hasClass(
+						'nav-ul-mob')) {
+					$('.nav-wrapper-out').removeClass('navbar-fixed');
+					// $('.subnav').removeClass('subnav-mob-hidden');
+					console.log('fixNav');
+				}
+
+
+
+				// if (window.innerWidth < 992 && $('.nav-wrapper-out').hasClass('navbar-fixed')) {
+				// 	$('.nav-wrapper-out').removeClass('navbar-fixed');
+				// }
+
+			}
+
+			let lazyLayout = _.debounce(fixNav, 300);
+			$(window).resize(lazyLayout);
+			// $(window).resize(fixNav);
+
+		});
+	</script>
+	<!-- Waypoints -->
+	{% comment %} <script
+		src="https://cdnjs.cloudflare.com/ajax/libs/infinity/0.2.2/infinity.min.js">
+	</script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js">
+	</script> {% endcomment %}
+
+	{% block extra_js %}
+	{% endblock %}
+</body>
+
+</html>

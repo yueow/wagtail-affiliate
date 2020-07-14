@@ -1,0 +1,39 @@
+{% load static wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
+
+<div class="row infinite-container">
+
+    {% if blogs %}
+    {% for blog in blogs %}
+    <!-- Column -->
+    <div class="col infinite-item">
+        <div class="card">
+            <a href="#">
+                <div class="card-image">
+                    {% image blog.gallery_images.first.image original as img %}
+                    <img src="{{ img.url }}" alt='{{ img.alt }}'>
+                </div>
+                <div class="card-content">
+                    <p class="card-category">#{{ blog.node.first.name }}
+                    </p>
+                    <hr>
+                    <p class='card-title'>{{ blog.title }}<p>
+                            <p class='card-cta'><a href="{% pageurl blog %}">see
+                                    more</a></p>
+                </div>
+        </div>
+        </a>
+    </div>
+    <!-- /Column -->
+    {% endfor %}
+</div>
+{% if blogs.has_next %}
+<a class="infinite-more-link" href="?page={{ blogs.next_page_number }}">Next</a>
+{% endif %}
+<div class="d-flex justify-content-center" style="display:none;">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+{% else %}
+    <h1>No Posts</h1>
+{% endif %}
+</div>
