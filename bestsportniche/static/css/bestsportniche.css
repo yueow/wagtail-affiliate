@@ -5,8 +5,10 @@
 /* Main */
 * {
     /* overflow-y: hidden; */
+    box-sizing: border-box;
 
 }
+html,body { margin:0; padding: 0; }
 section {
     overflow-x: hidden;
 }
@@ -48,7 +50,8 @@ nav .input-field {
 }
 .social-buttons a {
     background-color: inherit !important;
-    padding-inline: .3rem !important;
+    padding-inline-start: .3rem !important;
+    padding-inline-end: .3rem !important;
 }
 
 .nav-social-item:hover {
@@ -92,6 +95,8 @@ nav .input-field {
 .search-container>form {
     display: flex;
     margin-block: 15px 10px;
+    margin-block-start: 15px;
+    margin-block-end: 10px;
 
 }
 
@@ -131,6 +136,49 @@ nav .input-field {
 /*  */
 
 
+/* Subnav */
+.subnav {
+    /* display:none; */
+    background-color: lightgrey;
+    /* height: 35px; */
+
+    position: fixed; /* Set the navbar to fixed position */
+    top: 64px; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+
+    /* margin-bottom: 5px; */
+    z-index: 997;
+    /* line-height: 40px; */
+    /* font-size: 1.1em; */
+}
+
+.subnav>ul {
+    margin-block: 0px;
+    display: flex;
+    justify-content: center;
+}
+.subnav>ul>li {
+    padding-inline: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+
+    padding-block: 10px 5px;
+    padding-block-start: 10px;
+    padding-block-end: 5px;
+    white-space: nowrap;
+}
+.subnav>ul>li>a {
+    color: black;
+    font-weight: 700;
+    text-transform: uppercase;
+
+}
+.subnav>ul>li:hover, .subnav>ul>li:hover>a  {
+    background-color: white;
+    color:#4693aa;
+}
+
+
 /* Mega Menu Dropdown */
 .megamenu-dropdown:hover .megamenu-dropdown-area {
     visibility: visible;
@@ -159,6 +207,15 @@ nav .input-field {
     box-sizing: border-box;
     box-shadow: 0 4px 2px -2px gray;
 }
+.megamenu-dropdown-area a {
+    color: black;
+}
+.megamenu-dropdown-area a:hover {
+    color: #4693aa;
+}
+.megamenu-dropdown-area a:active {
+    color: #4693aa;
+}
 /* .megamenu-dropdown-area: */
 
 /* Mega Menu Header */
@@ -176,6 +233,9 @@ nav .input-field {
     justify-content: space-around;
     padding: 10px 40px !important;
     display: flex;
+}
+.megamenu-dropdown-content ul {
+    display:block;
 }
 .megamenu-dropdown-content>ul>h4 {
     font-weight: 700;
@@ -202,6 +262,9 @@ nav .input-field {
     padding-block: 20px;
     overflow-x: hidden;
 }
+.megamenu-dropdown-footer a:hover {
+    color:white;
+}
 .megamenu-dropdown-footer-title {
     color: black;
     font-size: 25px;
@@ -209,8 +272,9 @@ nav .input-field {
     align-items: center;
     font-weight: 700;
     text-transform: uppercase;
-    
 }
+
+
 .megamenu-dropdown-footer-card>a>p {
     margin: 0px;
     color: black;
@@ -243,44 +307,6 @@ nav .input-field {
 /*  */
 
 
-/* Subnav */
-.subnav {
-    /* display:none; */
-    background-color: lightgrey;
-    /* height: 35px; */
-
-    position: fixed; /* Set the navbar to fixed position */
-    top: 64px; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
-
-    /* margin-bottom: 5px; */
-    z-index: 997;
-    /* line-height: 40px; */
-    /* font-size: 1.1em; */
-}
-
-.subnav>ul {
-    margin-block: 0px;
-    display: flex;
-    justify-content: center;
-}
-.subnav ul li {
-    padding-inline: 10px;
-    padding-block: 10px 5px;
-    white-space: nowrap;
-}
-.subnav>ul>li>a {
-    color: black;
-    font-weight: 700;
-    text-transform: uppercase;
-
-}
-.subnav>ul>li:hover, .subnav>ul>li:hover>a  {
-    background-color: white;
-    color:#4693aa;
-}
-
-
 /* Subscription Section */
 .subscribe-section-wrapper {
     background-image: url('https://images.pexels.com/photos/3756042/pexels-photo-3756042.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260');
@@ -288,6 +314,8 @@ nav .input-field {
     background-size: cover;
     background-position: bottom;
     padding-block: 100px;
+    padding-block-start: 100px;
+    padding-block-end: 100px;
 }
 .subscribe-section {
     /* background-color: #06AED5; */
@@ -315,7 +343,8 @@ nav .input-field {
 .subscribe-section>hr {
     color: #4693aa;
     height: 0.5px;
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     background-color: #4693aa;
     border: none;
 }
@@ -439,6 +468,7 @@ footer {
     display: flex;
     justify-content: center;
     font-weight: 700;
+    width: 100%;
 }
 .section-title>h2 {
     font-weight: 700;
@@ -450,14 +480,18 @@ footer {
     height: 0.5px;
     border: none;
 
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     margin-top: 4.5rem;
     background-color: #4693aa;
 }
 /*  */
 .megamenu-dropdown-active {
-    color:#4693aa;
+    /* color:#4693aa; */
     background-color: white;
+}
+.megamenu-dropdown-active>a {
+    color:#4693aa !important;
 }
 .megamenu-dropdown-area-active {
     visibility: visible;

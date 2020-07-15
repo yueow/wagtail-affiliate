@@ -16,7 +16,7 @@
 		{% endblock %}
 	</title>
 	<meta name="description" content="" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
 	<!-- Compiled and minified CSS -->
@@ -342,7 +342,8 @@
 		$(document).ready(function () {
 
 
-			let mobMenu = function () {
+			let mobMenu = function (event) {
+				event.preventDefault();
 				$('.nav-wrapper').toggleClass('nav-ul-mob');
 				$('.nav-wrapper>ul').toggleClass('hide-on-med-and-down');
 				$('.nav-wrapper-out').toggleClass('navbar-fixed');
@@ -358,10 +359,13 @@
 			$('.sidenav-trigger').on('click', mobMenu)
 
 			// Megamenu dropdown button
-			$('.megamenu-dropdown').on('click', function () {
-				$('.megamenu-dropdown-area').toggleClass(
+			$('.megamenu-dropdown').on('click', function (event) {
+				event.preventDefault();
+				console.log()
+				
+				$(this).children('div').toggleClass(
 					'megamenu-dropdown-area-active');
-				$('.megamenu-dropdown').toggleClass(
+				$(this).toggleClass(
 					'megamenu-dropdown-active');
 			})
 

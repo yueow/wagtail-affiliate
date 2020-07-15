@@ -1,5 +1,9 @@
 /* Social Button Icon Styling */
 /* Colors */
+.social-buttons-nav .social-buttons a {
+  background-color: none;
+}
+
 .social-buttons {
   display: -webkit-box;
   display: -ms-flexbox;

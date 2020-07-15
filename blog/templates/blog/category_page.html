@@ -39,8 +39,7 @@
 					id='categories-input'>
 					<option value="all" selected>All Categories</option>
 					{% for category in page.categories %}
-					<option value="{{ category.pk }}">
-						{{ category.name }}</option>
+					<option value="{{ category.pk }}">{{ category.name }}</option>
 					{% endfor %}
 				</select>
 			</div>
