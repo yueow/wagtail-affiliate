@@ -15,9 +15,11 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from django.core.validators import MinLengthValidator
+
+from wagtailmetadata.models import MetadataPageMixin
 
 from wagtail.search import index
 from wagtail.search.models import Query
@@ -26,7 +28,7 @@ from home import models as home_models
 
 
 # Blog/Product Page Entity
-class BlogPage(Page):
+class BlogPage(MetadataPageMixin, Page):
     date = models.DateField("Post date")
     # intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
@@ -69,11 +71,21 @@ class BlogPage(Page):
 
     @property
     def main_category(self):
-        category = self.categories()[0] or None
+        categories = self.categories
+        if categories:
+            category = categories.first()
+        else:
+            category = None
         return category
-    
+
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        context['related_items'] = [i.related_page for i in self.related_items.all()]
+
+        return context
+
     search_fields = Page.search_fields + [
-        # index.SearchField('intro'),
         index.SearchField('body'),
         index.SearchField('brand'),
         index.SearchField('model'),
@@ -101,10 +113,29 @@ class BlogPage(Page):
         FieldPanel('pinterest_link'),
         FieldPanel('youtube_link'),
         FieldPanel('instagram_link'),
-        InlinePanel('gallery_images', label="Gallery images"),
+        InlinePanel('gallery_images', max_num=6, label="Gallery images"),
         FieldPanel('node', widget=forms.CheckboxSelectMultiple),
+        InlinePanel('related_items', max_num=3, label="Related Items"),
     ]
 
+
+# Related Products
+class BlogPageRelatedProduct(Orderable):
+    related_page = models.ForeignKey(
+        "BlogPage",
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+
+    page = ParentalKey(BlogPage, on_delete=models.CASCADE, related_name='related_items')
+
+    panels = [
+        PageChooserPanel("related_page"),
+    ]
+
+    
 
 # Blog Page Image Gallery
 class BlogPageGalleryImage(Orderable):
@@ -121,7 +152,7 @@ class BlogPageGalleryImage(Orderable):
 
 
 # 
-class BlogIndexPage(RoutablePageMixin, Page):
+class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
     template = 'blog/category_page.html'
 
 
@@ -129,8 +160,6 @@ class BlogIndexPage(RoutablePageMixin, Page):
     @route('filtering_ajax/')
     def filtering_ajax(self, request, *args, **kwargs):
         if request.is_ajax():
-            print('----------- ajax works------------------------')
-
             form_data = json.loads(request.GET.get('form_data'))
             print(form_data)
             # Deserialization JSON object

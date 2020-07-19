@@ -9,14 +9,17 @@ from django.core.exceptions import PermissionDenied
 from modelcluster.fields import ParentalKey
 from wagtail.core.models import Page, Orderable
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
+
 from wagtail.admin.forms import WagtailAdminModelForm
 from wagtail.contrib.modeladmin.helpers import ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin
 from wagtail.contrib.modeladmin.views import CreateView
 from wagtail.search import index
 from django.template.loader import render_to_string
+
+from wagtailmetadata.models import MetadataPageMixin
 
 from treebeard.mp_tree import MP_Node
 from blog.models import BlogPage
@@ -235,9 +238,8 @@ class AddChildNodeViewClass(CreateView):
         return {'parent': self.parent_pk}
 
 
-
-
-class HomePage(Page):
+# Home Page Model
+class HomePage(MetadataPageMixin, Page):
     template = 'home/home_page.html'
 
     # title = models.CharField(max_length=120, blank=True, null=True)
@@ -251,35 +253,33 @@ class HomePage(Page):
         context['featured_posts'] = featured_posts
         context['latest_posts'] = latest_posts
 
+        # context['bsp_item'] = 
+
         return context
     
     content_panels = Page.content_panels + [
-        InlinePanel('slider_items', label="Slider"),
-        FieldPanel('title')
+        FieldPanel('title'),
+        InlinePanel('slider_items', max_num=3, label="Slider"),
+        InlinePanel('social_buttons', max_num=5, label="Social Buttons"),
+        InlinePanel('bsp_item', max_num=1,  label="Best Selling Product"),
     ]
 
-# class LinkFields(models.Model):
-#     link_external = models.URLField("URL", blank=True)
-#     link_page = models.ForeignKey('wagtailcore.Page', null=True,
-#         blank=True, on_delete=models.CASCADE, related_name='+')
 
-#     @property
-#     def link(self):
-#         if self.link_page:
-#             return self.link_page.url
-#         else:
-#             return self.link_external
+# Social Buttons Model
+class SocialButton(Orderable):
+    name = models.CharField(max_length=100)
+    link = models.URLField()
+    icon_class = models.CharField(max_length=100)
 
-#     panels = [
-#         FieldPanel('link_external'),
-#         PageChooserPanel('link_page'),
-#     ]
+    page = ParentalKey('HomePage', related_name='social_buttons')
 
-#     class Meta:
-#         abstract = True
-# ! Add Socail Buttons
+    def __str__(self):
+        return f'{self.name} - {self.link}'
 
+
+# Home Page Slider Carousel Model
 class SliderItem(Orderable):
+    title = models.CharField(max_length=200, blank=True, null=True)
     page = ParentalKey('HomePage', related_name='slider_items')
     image = models.ForeignKey(
         'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
@@ -288,9 +288,36 @@ class SliderItem(Orderable):
     link = models.URLField()
 
     panels = [
+        FieldPanel('title'),
         ImageChooserPanel('image'),
-        # FieldPanel('title'),
         FieldPanel('cat'),
         FieldPanel('link'),
     ]
 
+
+# Best Selling Product Model
+class BSPItem(Orderable):
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=512)
+    image = models.ForeignKey(
+        'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
+    )
+
+    button_link = models.URLField(blank=True, null=True)
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+    
+    parental_page = ParentalKey('HomePage', on_delete=models.CASCADE, related_name='bsp_item')
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('description'),
+        ImageChooserPanel('image'),
+        FieldPanel('button_link'),
+        PageChooserPanel("page"),
+    ]

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 {% load static wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
@@ -13,29 +12,31 @@
 
 {% block content %}
 
-<div class="container">
+<div class="body-bg-color-primary">
+  <div class="container">
 
-  <!-- Slideshow container -->
-  {% include 'home/includes/slider.html' with slider_items=page.slider_items.all %}
-  <br>
-
-  <!-- The dots/circles -->
-  <div style="text-align:center">
-    <span class="dot" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
+    <!-- Slideshow container -->
+    {% include 'home/includes/slider.html' with slider_items=page.slider_items.all %}
+    <br>
+    
+    <!-- The dots/circles -->
+    <div style="text-align:center">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
   </div>
 </div>
 
 <!-- Featured section -->
-<section>
+<section class='body-bg-color-primary'>
   <div class="container">
 
     <!-- Section Title -->
     <div class="section-title">
-      <hr>
+      <hr class='theme-text-color theme-bg-color'>
       <h2>Featured</h2>
-      <hr>
+      <hr class='theme-text-color theme-bg-color'>
     </div>
     <!-- /Section Title -->
     {% include 'blog/includes/cards.html' with blogs=featured_posts %}
@@ -50,35 +51,38 @@
 </section>
 <!-- /Featured section -->
 
-
-<article>
+{% if page.bsp_item.first %}
+<article class='bsp-bg-color bsp-text-color'>
   <div class="container">
     <img id='article-cover-image'
-      src="https://www.searchpng.com/wp-content/uploads/2019/01/Smart-Sports-Watch-PNG.png"
-      alt="">
+    {% image page.bsp_item.first.image original as bsp_img %}
+      src="{{ bsp_img.url }}"
+      alt="{{ bsp_img.alt }}">
     <div class='article-content'>
-      <h3>Best selling Product</h3>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit
+      <h3>Best selling Product {{ page.bsp_item.first.title }}</h3>
+      <p>{{ page.bsp_item.first.description }}
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit
         minima enim ducimus? Nulla sint voluptate et sit error totam
         repudiandae, repellat ex neque assumenda molestias facilis omnis quo
         expedita quae.
 
       </p>
-      <a href="" class="article-cta ">Get</a>
+      <a href="{% if page.bsp_item.first.page %}{% pageurl page.bsp_item.first.page %}{% else %}{{ page.bsp_item.first.link }}{% endif %}" class="article-cta theme-text-hover-bg-color">Get</a>
     </div>
   </div>
 </article>
+{% endif %}
 
 <!-- Latest Posts section -->
-<section class='post-section'>
+<section class='post-section body-bg-color-secondary'>
   <div class="container">
 
 
     <!-- Section Title -->
     <div class="section-title">
-      <hr>
+      <hr class='theme-text-color theme-bg-color'>
       <h2>Latest Posts</h2>
-      <hr>
+      <hr class='theme-text-color theme-bg-color'>
     </div>
     <!-- /Section Title -->
 

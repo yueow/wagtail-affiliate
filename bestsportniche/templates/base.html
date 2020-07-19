@@ -1,4 +1,4 @@
-{% load static menu_tags wagtailuserbar wagtailcore_tags %}
+{% load static general_tags wagtailuserbar wagtailcore_tags wagtailmetadata_tags %}
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -15,47 +15,169 @@
 		{% endwith %}
 		{% endblock %}
 	</title>
-	<meta name="description" content="" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  	
+	<link rel="shortcut icon" href="{% static 'img/eagle_logo.png' %}" type="image/x-icon">
+	{% meta_tags %}
 
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-		media="screen,projection">
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+	media="screen,projection">
 
 	<!-- JQuery -->
 	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 	</script>
 
 	<!-- Font Awesome -->
 	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js">
+	src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js">
 	</script>
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
 
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-		rel="stylesheet">
+	rel="stylesheet">
 
 	<!-- Social Buttons -->
 	<link type="text/css" rel="stylesheet"
 		href="{% static 'scss/social-buttons.css' %}" />
+		
 
-
-
+		
 	<!-- Fonts -->
 	<link
-		href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
 		rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+		<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
 		rel="stylesheet">
 
+	{% get_font 'lato' as loaded_fonts %}
+	{% get_theme 'default' as theme %}
+	{% get_social_buttons as social_buttons %}
 
-	{% comment %} <script
-		src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.5/waypoints.min.js">
-	</script> {% endcomment %}
+	<style>
+		/* Fonts */
+		@import url({{ loaded_fonts.import_rule }});
+
+		* {
+			font-family: '{{ loaded_fonts.css_rule }}',
+			'Lato',
+			Arial,
+			Helvetica,
+			sans-serif;
+		}
+
+		/* Theme */
+		.theme-bg-color {
+			background-color: #{{ theme.theme_color }} !important;
+		}
+
+		.theme-text-color {
+			color: #{{ theme.theme_color }} !important;
+		}
+
+		.theme-text-hover-color:hover {
+			color: #{{ theme.theme_color }} !important;
+		}
+
+		.theme-text-hover-color a:hover {
+			color: #{{ theme.theme_color }} !important;
+		}
+
+		/* Body */
+		.body-bg-color-primary {
+			background-color: #{{ theme.body_bg_color_primary }} !important;
+		}
+
+		.body-bg-color-secondary {
+			background-color: #{{ theme.body_bg_color_secondary }} !important;
+		}
+
+		/* Navbar */
+		.navbar-bg-color {
+			background-color: #{{ theme.navbar_bg_color }} !important;
+		}
+
+		.navbar-text-color {
+			color: #{{ theme.navbar_text_color }} !important;
+		}
+
+		/* Brand Text */
+		.brand-text-color {
+			color: #{{ theme.brand_text_color }} !important;
+		}
+
+		/* Subnav */
+		.subnav-bg-color {
+			background-color: #{{ theme.subnav_bg_color }} !important;
+		}
+
+		.subnav-text-color {
+			color: #{{ theme.subnav_text_color }} !important;
+		}
+
+		.subnav-text-color:hover {
+			color: #{{ theme.theme_color }} !important;
+		}
+
+		.subnav>ul>li:hover,
+		.subnav>ul>li:hover>a {
+			background-color: white;
+			color: #4693aa;
+		}
+
+		.subnav>ul>li:hover,
+		.subnav>ul>li:hover>a {
+			color:#{{ theme.theme_color }} !important;
+		}
+
+		/* Megamenu */
+		.megamenu-bg-color {
+			background-color: #{{ theme.megamenu_bg_color }} !important;
+		}
+
+		.megamenu-text-color {
+			color: #{{ theme.megamenu_text_color }} !important;
+		}
+
+		.megamenu-text-hover-color {
+			color: #{{ theme.megamenu_text_hover_color }} !important;
+		}
+
+		/* Megamenu Footer */
+		.megamenu-footer-bg-color {
+			background-color: #{{ theme.megamenu_footer_bg_color }} !important;
+		}
+
+		.megamenu-footer-text-color {
+			color: #{{ theme.megamenu_footer_text_color }} !important;
+		}
+
+		/* BSP */
+		.bsp-bg-color {
+			background-color: #{{ theme.bsp_bg_color }} !important;
+		}
+
+		.bsp-text-color * {
+			color: #{{ theme.bsp_text_color }} !important;
+		}
+
+		/* Footer */
+		.footer-bg-color {
+			background-color: #{{ theme.footer_bg_color }} !important;
+		}
+
+		.footer-text-color {
+			color: #{{ theme.footer_text_color }} !important;
+		}
+
+		/* Categories */
+		.categories-block-bg-color {
+			/* background-color: #{{ theme.footer_bg_color }} !important; */
+		}
+	</style>
 
 	<!-- Global stylesheets -->
 	<link rel="stylesheet" type="text/css"
@@ -68,14 +190,14 @@
 <body class="{% block body_class %}{% endblock %}">
 	{% wagtailuserbar %}
 	<div class="navbar-fixed nav-wrapper-out">
-		<nav class='white'>
+		<nav class='navbar-bg-color navbar-text-color'>
 			<div class="nav-wrapper container">
 				<a href="{{ page.get_site.root_url }}" class="brand-logo">
 					<img src="{% static 'img/eagle_logo.png' %}" alt="">
-					<span>Bestsportniche</span></a>
+					<span class='brand-text-color'>Bestsportniche</span></a>
 
 				<a href="#" data-target="mobile-demo"
-					class="sidenav-trigger black-text"><i
+					class="sidenav-trigger brand-text-color"><i
 						class="material-icons">menu</i></a>
 
 
@@ -89,35 +211,13 @@
 					<li>
 						<!-- Social Buttons -->
 						<div class="social-buttons social-buttons-nav">
-							<!-- facebook  Button -->
-							<a href="http://www.facebook.com" target="blank"
-								class="">
-								<div class="social-icon facebook">
-									<i class="fab fa-facebook-f"></i>
+							{% for button in social_buttons %}
+							<a href="{{ button.link }}" target="blank" class="">
+								<div class="social-icon {{ button.name }}">
+									<i class="fab {{ button.icon_class }}"></i>
 								</div>
 							</a>
-							<!-- pinterest Button -->
-							<a href="https://pinterest.com/" target="blank"
-								class="">
-								<div class="social-icon pinterest">
-									<i class="fab fa-pinterest-p"></i>
-								</div>
-							</a>
-							<!-- Youtube Button -->
-							<a href="http://youtube.com/" target="blank"
-								class="">
-								<div class="social-icon youtube">
-									<i class="fab fa-youtube"></i>
-								</div>
-							</a>
-
-							<!-- TwitterButton -->
-							<a href="http://twitter.com/" target="blank"
-								class="">
-								<div class="social-icon twitter">
-									<i class="fab fa-twitter"></i>
-								</div>
-							</a>
+							{% endfor %}
 						</div>
 						<!-- /Social Buttons -->
 
@@ -149,15 +249,10 @@
 
 
 
-	{% comment %} Megamenu {% endcomment %}
+	<!-- Megamenu -->
 	{% get_menu "subnav-megamenu" as menu %}
 	{% include 'blog/includes/megamenu.html' with menu=menu %}
 
-{% comment %} /Megamenu {% endcomment %}
-
-
-<!-- Implement Social Buttons using tags -->
-{% comment %} {% get_socailbuttons "subnav-megamenu" as navigation %} {% endcomment %}
 
 	{% block content %}{% endblock %}
 
@@ -165,19 +260,20 @@
 	<!-- Subscribe Section -->
 	<div id='subscribe-section-anchor' class="subscribe-section-wrapper">
 		<div class="container subscribe-section z-depth-4">
-			<p>The best</p>
+			<p class='theme-text-color'>The best</p>
 			<h4>Daily Tips in your Inbox</h4>
-			<hr>
-			<p>Straight to your Inbox</p>
+			<hr class='theme-text-color theme-bg-color'>
+			<p class='theme-text-color'>Straight to your Inbox</p>
 
-			<form>
+			<form action="{% url 'subscribe' %}" method='POST'>
+				{% csrf_token %}
 				<div class="subscribe-input-field">
-					<input id="subscribe" type="email"
+					<input id="subscribe" type="email" , name="subscribe_email"
 						placeholder="Enter your email">
 
 					<p>
 						<label>
-							<input type="checkbox" checked="checked" />
+							<input type="checkbox" required>
 							<span class='black-text'>I confirm I wish to sign up
 								to the mailing list</span>
 						</label>
@@ -189,120 +285,65 @@
 		</div>
 
 	</div>
-	<!-- Subscribe section -->
+	<!-- /Subscribe section -->
 
+
+
+	{% get_footer 'default' as footer %}
 	<!-- Footer -->
-	<footer>
+	<footer class='footer-bg-color footer-text-color'>
 		<div class="container">
 			<div class="row">
 				<div class="col l6 s12">
-					<h5 class="white-text">
+					<h5>
 						<a href="#!" class="brand-logo brand-logo-footer">
 							<img src="{% static 'img/eagle_logo.png' %}" alt="">
-							<span>Bestsportniche</span></a>
+							<span class=''>Bestsportniche</span></a>
 
 					</h5>
-					<p class="grey-text text-lighten-4">
-						Bestsportniche.com is Pakistan's premier sports shopping
-						website. Genuine Products, Competitive Prices, Local and
-						International Brands, everything that you wanted in a
-						Sports Shop. From the comforts of your home, enjoy the
-						best shopping experience.
+					<p class="footer-text-color">
+						{{ footer.description }}
 					</p>
 				</div>
+				{% for column in footer.footer_columns.all %}
 				<div class="col l4 offset-l2 s12">
-					<h5 class="white-text">Categories</h5>
+					<h5 class="footer-text-color">{{ column.title }}</h5>
 					<ul>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Aerobics</a></li>
+						{% for row in column.footer_rows.all %}
+						<li><a class="footer-text-color"
+							{% if row.link_url %}href="{{ row.link_url }}"
+                            {% elif row.link_page %}href="{% pageurl row.link_page %}"
+                            {% else %}href="#"{% endif %}>{{ row.title }}</a>
+						</li>
+						{% endfor %}
 					</ul>
 				</div>
-
-				<div class="col l4 offset-l2 s12">
-					<h5 class="white-text">About</h5>
-					<ul>
-						<li><a class="grey-text text-lighten-3" href="#!">About
-								Us</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Affiliate</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Contact</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Policy</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Policy</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Policy</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Policy</a></li>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">Policy</a></li>
-					</ul>
-				</div>
+				{% endfor %}
 
 				<div class="col l4 offset-l2 s12">
 					<div>
-						<h4 class='white-text bold-text'>Follow Us</h4>
+						<h4 class='footer-text-color bold-text'>Follow Us</h4>
 						<!-- Social Buttons -->
-						<div class="social-buttons social-buttons-nav black">
-							<!-- facebook  Button -->
-							<a href="http://www.facebook.com" target="blank"
-								class="">
-								<div class="social-icon facebook">
-									<i class="fab fa-facebook-f"></i>
-								</div>
-							</a>
-							<!-- pinterest Button -->
-							<a href="https://pinterest.com/" target="blank"
-								class="">
-								<div class="social-icon pinterest">
-									<i class="fab fa-pinterest-p"></i>
-								</div>
-							</a>
-							<!-- Youtube Button -->
-							<a href="http://youtube.com/" target="blank"
-								class="">
-								<div class="social-icon youtube">
-									<i class="fab fa-youtube"></i>
-								</div>
-							</a>
+						<div
+							class="social-buttons social-buttons-nav footer-bg-color">
 
-							<!-- TwitterButton -->
-							<a href="http://twitter.com/" target="blank"
-								class="">
-								<div class="social-icon twitter">
-									<i class="fab fa-twitter"></i>
+							{% for button in social_buttons %}
+							<a href="{{ button.link }}" target="blank" class="">
+								<div class="social-icon {{ button.name }}">
+									<i class="fab {{ button.icon_class }}"></i>
 								</div>
 							</a>
+							{% endfor %}
+
 						</div>
 						<!-- /Social Buttons -->
 					</div>
-					<h5 class="white-text bold-text">Contact</h5>
+					<h5 class="footer-text-color bold-text">Contact</h5>
 					<ul>
-						<li><a class="grey-text text-lighten-3"
-								href="#!">info@bestsportniche.pk</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">(+92)
-								03-111-11-88-77</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">(+92)
-								03-102-23-09-60</a></li>
-						<li><a class="grey-text text-lighten-3" href="#!">(+92)
-								03-102-23-09-60</a></li>
+						{% for contact in footer.contacts.all %}
+						<li><a class="footer-text-color"
+								href="#!">{{ contact.contact }}</a></li>
+						{% endfor %}
 					</ul>
 
 					<img width='100'
@@ -316,8 +357,8 @@
 			</div>
 		</div>
 		<div class="footer-copyright">
-			<div class="container bold-text">
-				© 2020 All Rights Reserved. Powered by Bestsportniche
+			<div class="container footer-text-color bold-text">
+				{{ footer.basement }}
 			</div>
 		</div>
 	</footer>
@@ -362,7 +403,7 @@
 			$('.megamenu-dropdown').on('click', function (event) {
 				event.preventDefault();
 				console.log()
-				
+
 				$(this).children('div').toggleClass(
 					'megamenu-dropdown-area-active');
 				$(this).toggleClass(

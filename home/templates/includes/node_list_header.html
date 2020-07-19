@@ -1,0 +1,10 @@
+{# File: my_app/templates/includes/node_list_header.html #}
+{% if is_root %}
+  <span style="font-size:135%;"><strong>{{ name }}</strong></span>
+{% else %}
+  <span>
+    <span class="inline-block" style="margin-left:{{ depth_minus_1 }}em; font-size:{% if depth is 1 %}120{% elif depth is 2 %}110{% else %}100{% endif %}%;"></span>
+    <i class="icon icon-fa-level-up icon-fa-rotate-90" style="display: inline-block;"></i>
+    {{ name }}
+  </span>
+{% endif %}

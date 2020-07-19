@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'blog',
     'menu',
     'search',
+    'colorfield',
+
+    # 'meta',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -52,6 +55,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.modeladmin',
     'wagtail_whoosh',
     "wagtail.contrib.routable_page",
+    'wagtailmetadata',
     'modelcluster',
     'taggit',
 
@@ -61,9 +65,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sitemaps",
+
+    'debug_toolbar',
     # 'django.contrib.treebeard',
 ]
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -71,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    
 
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]

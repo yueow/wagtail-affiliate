@@ -3,6 +3,8 @@ beautifulsoup4==4.8.2
 certifi==2020.6.20
 chardet==3.0.4
 Django==3.0.8
+-e git://github.com/mbi/django-colorfield.git@674393eecb7bdb1d7562db79da3bc526b5c166e5#egg=django_colorfield
+django-debug-toolbar==2.2
 django-extensions==3.0.3
 django-modelcluster==5.0.2
 django-taggit==1.3.0
@@ -23,6 +25,7 @@ sqlparse==0.3.1
 Unidecode==1.1.1
 urllib3==1.25.9
 wagtail==2.9.2
+wagtail-metadata==3.2.0
 wagtail-whoosh==0.2.4
 webencodings==0.5.1
 Whoosh==2.7.4

@@ -14,7 +14,7 @@ section {
 }
 body {
     /* font-family: 'Roboto', sans-serif; */
-    font-family: 'Lato', Arial, Helvetica, sans-serif;
+    /* font-family: 'Lato', Arial, Helvetica, sans-serif; */
     overflow-x: hidden; /* Hide horizontal scrollbar */
 
     
@@ -186,7 +186,7 @@ nav .input-field {
 }
 
 .megamenu-dropdown-area {
-    background-color: white !important;
+    /* background-color: white !important; */
     z-index: 100;
     position: absolute;
     overflow-y: scroll;

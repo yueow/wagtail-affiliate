@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load wagtailcore_tags %}
-{% load wagtailimages_tags %}
+{% load wagtailimages_tags wagtailmetadata_tags %}
 
 {% block body_class %}template-blog_page{% endblock %}
 
@@ -12,6 +12,7 @@
 
 {% endblock extra_css %}
 
+{% block title %}{{ page.title }}{% endblock title %}
 
 {% block content %}
 <div class="container">
@@ -20,8 +21,9 @@
         <div class="nav-wrapper">
             <div class="col s12">
                 <a href="{{ page.get_parent.url }}" class="breadcrumb">Home</a>
-                <a href="#!" class="breadcrumb">Tech</a>
-                <a href="#" class="breadcrumb">{{ page.title }}</a>
+                <a href="{% slugurl 'all_categories' %}"
+                    class="breadcrumb">{{ page.main_category }}</a>
+                <a href="" class="breadcrumb">{{ page.title }}</a>
             </div>
         </div>
     </nav>
@@ -33,10 +35,9 @@
                 <ul id="lightSlider">
                     {% for image in page.gallery_images.all %}
                     {% image image.image original as image_inst %}
-                    <li
-                        data-thumb="{{ image_inst.url }}">
-                        <img
-                            src="{{ image_inst.url }}" alt="{{ image_inst.alt }}" />
+                    <li data-thumb="{{ image_inst.url }}">
+                        <img src="{{ image_inst.url }}"
+                            alt="{{ image_inst.alt }}" />
                     </li>
                     {% endfor %}
                 </ul>
@@ -44,7 +45,7 @@
             <!-- /Gallery -->
             <h4 class='bold-text'>{{ page.title }}</h4>
             <p>{{ page.body|richtext }}</p>
-            
+
             {% comment %} <h4 class='bold-text'>Lorem Title</h4>
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
                 pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
@@ -75,18 +76,20 @@
             </p> {% endcomment %}
 
             <div style='margin-inline: auto; width: 300px;'>
-                <a href=""
-                    class="btn orange waves-effect bold-text section-btn">Check
-                    price {% if page.affiliate_name %}on {{ page.affiliate_name }} {% endif %}</a>
+                <a href="{{ page.affiliate_link }}"
+                    class="btn bold-text section-btn">Check
+                    price {% if page.affiliate_name %}on
+                    {{ page.affiliate_name }} {% endif %}</a>
             </div>
 
         </div>
 
         <!-- Second section -->
         <div class="col m4">
-            <a href=""
-                class="btn orange waves-effect bold-text section-btn btn-hide">Check
-                price {% if page.affiliate_name %}on {{ page.affiliate_name }} {% endif %}</a>
+            <a href="{{ page.affiliate_link }}"
+                class="btn bold-text section-btn btn-hide">Check
+                price {% if page.affiliate_name %}on {{ page.affiliate_name }}
+                {% endif %}</a>
 
             <!-- Section Title -->
             <div class="section-title">
@@ -134,33 +137,64 @@
                     </div>
                 </a>
                 {% endif %}
-
             </div>
             <!-- /Social Buttons -->
 
-            <p><a class='btn black white-text waves-effect bold-text section-btn'
+            <p><a class='btn waves-effect bold-text embed-btn'
                     href="#">Embed</a></p>
 
-            <p><a class='btn white-text section-btn sub-btn' href="#subscribe-section-anchor">Sign Up
+            <p><a class='btn white-text sub-btn'
+                    href="#subscribe-section-anchor">Sign Up
                     for our newsletter</a></p>
 
 
             <div class='overview z-depth-4'>
                 <p class='overview-header'>Overview</p>
+
+                {% if page.categories %}
                 <p class='overview-p'><span class="grey-text">Category</span>
-                    #TECH</p>
-                <p class='overview-p'><span class="grey-text">Brand</span> Apple
+                    #{{ page.main_category }}</p>
+                {% endif %}
+
+                {% if page.brand %}
+                <p class='overview-p'><span class="grey-text">Brand</span>
+                    {{ page.brand }}
                 </p>
-                <p class='overview-p'><span class="grey-text">Model</span>
-                    Iphone XS</p>
-                <p class='overview-p'><span class="grey-text">Color</span> White
+                {% endif %}
+
+                {% if page.model %}
+                <p class='overview-p'><span
+                        class="grey-text">Model</span>{{ page.model }}</p>
+                {% endif %}
+
+                {% if page.color %}
+                <p class='overview-p'><span class="grey-text">Color</span>
+                    {{ page.color }}
                 </p>
+                {% endif %}
+
+                {% if page.weight %}
+                <p class='overview-p'><span class="grey-text">Weight</span>
+                    {{ page.weight }}
+                </p>
+                {% endif %}
+
+                {% if page.dimensions %}
+                <p class='overview-p'><span class="grey-text">Dimensions</span>
+                    {{ page.dimensions }}
+                </p>
+                {% endif %}
+
+
 
             </div>
 
         </div>
 
     </div>
+
+    <!-- Related Items -->
+    {% if related_items %}
     <!-- Section Title -->
     <div class="section-title">
         <hr>
@@ -168,73 +202,11 @@
         <hr>
     </div>
     <!-- /Section Title -->
-
-    <!-- Row -->
-    <div class="row">
-
-        <!-- Column -->
-        <div class="col">
-            <div class="card">
-                <a href="#">
-                    <div class="card-image">
-                        <img
-                            src="https://ae01.alicdn.com/kf/HTB1gAQpKbSYBuNjSspfq6AZCpXaH.jpg?width=1200&height=1200&hash=2400">
-                    </div>
-                    <div class="card-content">
-                        <p class="card-category">#home</p>
-                        <hr>
-                        <p class='card-title'>Coega Ladies Active Tights-Red<p>
-                                <p class='card-cta'><a href="#123">see more</a>
-                                </p>
-                    </div>
-            </div>
-            </a>
-        </div>
-        <!-- /Column -->
-
-        <!-- Column -->
-        <div class="col">
-            <div class="card">
-                <a href="#">
-                    <div class="card-image">
-                        <img
-                            src="https://ae01.alicdn.com/kf/HTB1gAQpKbSYBuNjSspfq6AZCpXaH.jpg?width=1200&height=1200&hash=2400">
-                    </div>
-                    <div class="card-content">
-                        <p class="card-category">#home</p>
-                        <hr>
-                        <p class='card-title'>Coega Ladies Active Tights-Red<p>
-                                <p class='card-cta'><a href="#123">see more</a>
-                                </p>
-                    </div>
-            </div>
-            </a>
-        </div>
-        <!-- /Column -->
-
-        <!-- Column -->
-        <div class="col">
-            <div class="card">
-                <a href="#">
-                    <div class="card-image">
-                        <img
-                            src="https://ae01.alicdn.com/kf/HTB1gAQpKbSYBuNjSspfq6AZCpXaH.jpg?width=1200&height=1200&hash=2400">
-                    </div>
-                    <div class="card-content">
-                        <p class="card-category">#home</p>
-                        <hr>
-                        <p class='card-title'>Coega Ladies Active Tights-Red<p>
-                                <p class='card-cta'><a href="#123">see more</a>
-                                </p>
-                    </div>
-            </div>
-            </a>
-        </div>
-        <!-- /Column -->
-
-    </div>
-    <!-- /Row -->
-
+    {% include 'blog/includes/cards.html' with blogs=related_items %}
+    {% else %}
+    <div style='margin-bottom: 3rem;'></div>
+    {% endif %}
+    <!-- /Related Items -->
 
 </div>
 

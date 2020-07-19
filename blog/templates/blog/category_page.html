@@ -12,9 +12,10 @@
 {% endblock extra_css %}
 
 {% block content %}
+
 <div class='container'>
 	<!-- Header -->
-	<header>
+	<header class='categories-block-bg-color'>
 		<div class='header-content'>
 
 			<h1>
@@ -140,16 +141,19 @@
 
 	// Link Checkboxes 
 	$('#newest-check-link').on('click', function(e) {
+		e.preventDefault();
 		let form_data = $(this).serializeArray();
 		send_form_data('#filter-box-form', {'filter':true, 'newest':true, 'form_data': JSON.stringify(form_data)});
 	});
 
 	$('#featured-check-link').on('click', function(e) {
+		e.preventDefault();
 		let form_data = $(this).serializeArray();
 		send_form_data('#filter-box-form', {'filter':true, 'featured':true,'form_data': JSON.stringify(form_data)});
 	});
 
-	$('#latest-check-link').on('click', function(e) {
+	$('#updates-check-link').on('click', function(e) {
+		e.preventDefault();
 		let form_data = $(this).serializeArray();
 		send_form_data('#filter-box-form', {'filter':true, 'latest':true, 'form_data': JSON.stringify(form_data)});
 	});

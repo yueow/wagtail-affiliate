@@ -194,14 +194,16 @@ article {
 
 article .container {
     display: flex;
-    padding-left: 15%;
+    /* padding-left: 15%; */
     justify-content: center;
 
 }
 
 #article-cover-image {
     max-width: 400px !important;
-    width: 400px !important;
+    /* width: 400px !important; */
+    height: 100%;
+    width: 100%;
 }
 
 .article-content>h3 {
@@ -233,7 +235,7 @@ article .container {
 }
 
 .article-cta:hover {
-    background-color: white;
+    background-color: black;
     color: black;
 }
 

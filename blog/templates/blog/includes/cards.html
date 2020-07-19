@@ -7,7 +7,7 @@
     <!-- Column -->
     <div class="col infinite-item">
         <div class="card">
-            <a href="#">
+            <a href="{% pageurl blog %}">
                 <div class="card-image">
                     {% image blog.gallery_images.first.image original as img %}
                     <img src="{{ img.url }}" alt='{{ img.alt }}'>
@@ -15,9 +15,9 @@
                 <div class="card-content">
                     <p class="card-category">#{{ blog.node.first.name }}
                     </p>
-                    <hr>
+                    <hr class='theme-text-color theme-bg-color'>
                     <p class='card-title'>{{ blog.title }}<p>
-                            <p class='card-cta'><a href="{% pageurl blog %}">see
+                            <p class='card-cta '><a class='theme-text-color' href="{% pageurl blog %}">see
                                     more</a></p>
                 </div>
         </div>
@@ -27,11 +27,11 @@
     {% endfor %}
 </div>
 {% if blogs.has_next %}
-<a class="infinite-more-link" href="?page={{ blogs.next_page_number }}">Next</a>
+<a class="infinite-more-link" href="?page={{ blogs.next_page_number }}"></a>
 {% endif %}
 <div class="d-flex justify-content-center" style="display:none;">
     <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
+        <span class="sr-only"></span>
     </div>
 {% else %}
     <h1>No Posts</h1>

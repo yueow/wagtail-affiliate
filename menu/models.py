@@ -1,19 +1,23 @@
 from django.db import models
+from django.shortcuts import get_object_or_404, redirect
 
 from django_extensions.db.fields import AutoSlugField
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 
-from wagtail.images.models import Image
-from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.admin.edit_handlers import MultiFieldPanel,InlinePanel,FieldPanel,PageChooserPanel
-
 from wagtail.core.models import Orderable
+# from wagtail.images.models import Image
+from wagtail.admin.edit_handlers import MultiFieldPanel,InlinePanel,FieldPanel,PageChooserPanel
+from wagtail.images.edit_handlers import ImageChooserPanel
+
 from wagtail.snippets.models import register_snippet
+
+# from fontfield.fields import FontField
+from colorfield.fields import ColorField
+
 
 
 class MenuItem(ClusterableModel, Orderable):
-
     link_title = models.CharField(
         blank=True,
         null=True,
@@ -42,9 +46,9 @@ class MenuItem(ClusterableModel, Orderable):
         FieldPanel("dropdown"),
         PageChooserPanel("link_page"),
         
-        InlinePanel('menu_item_header', label="Menu Dropdown Header"),
-        InlinePanel('menu_item_content', label="Menu Dropdown Content"),
-        InlinePanel('menu_footer', label="Menu Dropdown Footer"),
+        InlinePanel('menu_item_header',  max_num=1, label="Menu Dropdown Header"),
+        InlinePanel('menu_item_content', max_num=5, label="Menu Dropdown Content"),
+        InlinePanel('menu_footer',  max_num=1, label="Menu Dropdown Footer"),
 
     ]
 
@@ -138,7 +142,7 @@ class MenuItemFooter(ClusterableModel, Orderable):
         FieldPanel('footer_title'),
         FieldPanel('footer_title_link'),
 
-        InlinePanel('menu_footer_items', label="Menu Footer Items"),
+        InlinePanel('menu_footer_items',  max_num=4, label="Menu Footer Items"),
     ]
 
 
@@ -148,11 +152,7 @@ class MenuItemFooterItem(Orderable):
 
     footer_menu = ParentalKey("MenuItemFooter", related_name="menu_footer_items")
     image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
+        'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
     )
 
     panels = [
@@ -160,8 +160,6 @@ class MenuItemFooterItem(Orderable):
         FieldPanel('footer_title_link'),
         ImageChooserPanel('image'),
     ]
-
-
 
 
 @register_snippet
@@ -182,3 +180,177 @@ class Menu(ClusterableModel):
 
     def __str__(self):
         return self.title
+
+
+@register_snippet
+class Font(ClusterableModel):
+    title = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from="title", editable=True)
+
+    import_rule = models.CharField(max_length=1024, blank=True, null=True)
+    css_rule = models.CharField(max_length=1024, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+@register_snippet
+class ThemeColorScheme(ClusterableModel):
+    title = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from="title", editable=True)
+
+    navbar_bg_color = ColorField(default='white')
+    navbar_text_color = ColorField(default='#FF0000')
+
+    brand_text_color = ColorField(default='black')
+
+    # Subnav
+    subnav_bg_color = ColorField(default='white')
+    subnav_text_color = ColorField(default='black')
+
+    # Megamenu
+    megamenu_bg_color = ColorField(default='#FF0000')
+    megamenu_text_color = ColorField(default='black')
+    megamenu_text_hover_color = ColorField(default='#4693aa')
+
+    # Megamenu Footer
+    megamenu_footer_bg_color = ColorField(default='#4693aa')
+    megamenu_footer_text_color = ColorField(default='black')
+
+    # Theme
+    theme_color = ColorField(default='#4693aa')
+
+    # Body
+    body_bg_color_primary = ColorField(default='#FF0000')
+    body_bg_color_secondary = ColorField(default='#FF0000')
+
+    # BSP
+    bsp_bg_color = ColorField(default='#4693aa')
+    bsp_text_color = ColorField(default='white')
+
+    # Footer
+    footer_bg_color = ColorField(default='black')
+    footer_text_color = ColorField(default='white')
+
+    # All categories
+    # categories_bg_color = ColorField(default='black')
+
+    def __str__(self):
+        return f'{self.title}'
+
+
+@register_snippet
+class FooterDetails(ClusterableModel):
+    title = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from="title", editable=True)
+
+    description = models.TextField(max_length=512)
+    basement = models.CharField(max_length=200) 
+    
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('slug'),
+        FieldPanel('description'),
+        FieldPanel('basement'),
+        InlinePanel("contacts", label="Contacts"),
+
+        InlinePanel("footer_columns", max_num=5, label="Footer Columns"),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = "Footer Details"
+
+
+# Footer Column
+class FooterColumn(ClusterableModel, Orderable):
+    title = models.CharField(blank=True, null=True, max_length=50)
+    link_url = models.CharField(max_length=500, blank=True)
+
+    link_page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+    open_in_new_tab = models.BooleanField(default=False, blank=True)
+    page = ParentalKey("FooterDetails", related_name="footer_columns")
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("link_url"),
+        PageChooserPanel("link_page"),
+        FieldPanel("open_in_new_tab"),
+        
+        InlinePanel("footer_rows", max_num=10, label="Footer Rows"),
+    ]
+
+    def __str__(self):
+        return self.title
+
+# Footer Column Row
+class FooterColumnRow(Orderable):
+    title = models.CharField(
+        blank=True,
+        null=True,
+        max_length=50
+    )
+    link_url = models.CharField(
+        max_length=500,
+        blank=True
+    )
+    link_page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+    open_in_new_tab = models.BooleanField(default=False, blank=True)
+    page = ParentalKey("FooterColumn", related_name="footer_rows")
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("link_url"),
+        PageChooserPanel("link_page"),
+        FieldPanel("open_in_new_tab"),
+    ] 
+    
+    def __str__(self):
+        return self.title
+
+
+# Contacts
+class ContactItem(Orderable):
+    contact = models.CharField(max_length=120)
+    footer_menu = ParentalKey("FooterDetails", related_name="contacts")
+
+    panels = [
+        FieldPanel('contact'),
+    ]
+
+    def __str__(self):
+        return self.contact
+
+
+@register_snippet
+class SubscriptionEmail(ClusterableModel):
+    email = models.EmailField(unique=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+
+# View for email subscriprion
+def subscribe_email(request):
+    if request.method == "POST":
+        email = request.POST.get('subscribe_email', None)
+        try:
+            SubscriptionEmail.objects.create(email=email)
+        except:
+            return redirect('/')            
+    return redirect('/')
