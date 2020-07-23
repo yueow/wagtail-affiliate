@@ -202,6 +202,9 @@ article .container {
 #article-cover-image {
     max-width: 400px !important;
     width: 400px !important;
+    max-height: 200px;
+    object-fit: cover;
+    height: 200px;
 }
 
 .article-content>h3 {

@@ -79,7 +79,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    
 
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
@@ -115,8 +114,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'bsp_db',
+#        'USER': 'bsp_admin',
+#        'PASSWORD': 'rjKfSm2341',
+#        'HOST': 'localhost',
+#        'PORT': '',
+#    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -182,3 +188,5 @@ WAGTAIL_SITE_NAME = "bestsportniche"
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
+
+TEST_NON_SERIALIZED_APPS = ['django.contrib.contenttypes', 'django.contrib.auth']
