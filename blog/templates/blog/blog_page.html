@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
-{% load wagtailcore_tags %}
-{% load wagtailimages_tags wagtailmetadata_tags %}
+{% load static wagtailcore_tags wagtailimages_tags wagtailmetadata_tags %}
 
 {% block body_class %}template-blog_page{% endblock %}
 
@@ -20,9 +18,11 @@
     <nav class='breadcrumb-wrapper white'>
         <div class="nav-wrapper">
             <div class="col s12">
-                <a href="{{ page.get_parent.url }}" class="breadcrumb">Home</a>
+                <a href="{% slugurl 'home' %}" class="breadcrumb">Home</a>
+                {% if page.main_category %}
                 <a href="{% slugurl 'all_categories' %}"
                     class="breadcrumb">{{ page.main_category }}</a>
+                {% endif %}
                 <a href="" class="breadcrumb">{{ page.title }}</a>
             </div>
         </div>
@@ -203,6 +203,7 @@
     </div>
     <!-- /Section Title -->
     {% include 'blog/includes/cards.html' with blogs=related_items %}
+    
     {% else %}
     <div style='margin-bottom: 3rem;'></div>
     {% endif %}

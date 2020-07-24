@@ -6,96 +6,100 @@
 {% block title %} {{ page.title }} {% endblock title %}
 
 {% block extra_css %}
-<!-- <link rel="stylesheet" href="{% static 'css/welcome_page.css' %}"> -->
 <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
 
 <div class="body-bg-color-primary">
-  <div class="container">
+	<div class="container">
 
-    <!-- Slideshow container -->
-    {% include 'home/includes/slider.html' with slider_items=page.slider_items.all %}
-    <br>
-    
-    <!-- The dots/circles -->
-    <div style="text-align:center">
-      <span class="dot" onclick="currentSlide(1)"></span>
-      <span class="dot" onclick="currentSlide(2)"></span>
-      <span class="dot" onclick="currentSlide(3)"></span>
-    </div>
-  </div>
+		{% if page.slider_items.all %}
+		<!-- Slideshow container -->
+		{% include 'home/includes/slider.html' with slider_items=page.slider_items.all %}
+		<br>
+
+		<!-- The dots/circles -->
+		<div style="text-align:center">
+			<span class="dot" onclick="currentSlide(1)"></span>
+			<span class="dot" onclick="currentSlide(2)"></span>
+			<span class="dot" onclick="currentSlide(3)"></span>
+		</div>
+		{% endif %}
+
+	</div>
 </div>
 
 <!-- Featured section -->
 <section class='body-bg-color-primary'>
-  <div class="container">
+	<div class="container">
 
-    <!-- Section Title -->
-    <div class="section-title">
-      <hr class='theme-text-color theme-bg-color'>
-      <h2>Featured</h2>
-      <hr class='theme-text-color theme-bg-color'>
-    </div>
-    <!-- /Section Title -->
-    {% include 'blog/includes/cards.html' with blogs=featured_posts %}
+		<!-- Section Title -->
+		<div class="section-title">
+			<hr class='theme-text-color theme-bg-color'>
+			<h2>Featured</h2>
+			<hr class='theme-text-color theme-bg-color'>
+		</div>
+		<!-- /Section Title -->
+		{% include 'blog/includes/cards.html' with blogs=featured_posts %}
 
 
-    <!-- Pagination -->
-    <div class="pagination-block">
-      <a href='{% slugurl "all_categories" %}'>Discover more</a>
-    </div>
-    <!-- /Pagination -->
-  </div>
+		<!-- Pagination -->
+		<div class="pagination-block">
+			<a href='{% slugurl "all_categories" %}'>Discover more</a>
+		</div>
+		<!-- /Pagination -->
+	</div>
 </section>
 <!-- /Featured section -->
 
 {% if page.bsp_item.first %}
 <article class='bsp-bg-color bsp-text-color'>
-  <div class="container">
-    <img id='article-cover-image'
-    {% image page.bsp_item.first.image original as bsp_img %}
-      src="{{ bsp_img.url }}"
-      alt="{{ bsp_img.alt }}">
-    <div class='article-content'>
-      <h3>Best selling Product {{ page.bsp_item.first.title }}</h3>
-      <p>{{ page.bsp_item.first.description }}
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit
-        minima enim ducimus? Nulla sint voluptate et sit error totam
-        repudiandae, repellat ex neque assumenda molestias facilis omnis quo
-        expedita quae.
+	<div class="container">
+		<img id='article-cover-image'
+			{% image page.bsp_item.first.image original as bsp_img %}
+			src="{{ bsp_img.url }}" alt="{{ bsp_img.alt }}">
+		<div class='article-content'>
+			<h3>Best selling Product {{ page.bsp_item.first.title }}</h3>
+			<p>{{ page.bsp_item.first.description }}
+				Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+				Reprehenderit
+				minima enim ducimus? Nulla sint voluptate et sit error totam
+				repudiandae, repellat ex neque assumenda molestias facilis omnis
+				quo
+				expedita quae.
 
-      </p>
-      <a href="{% if page.bsp_item.first.page %}{% pageurl page.bsp_item.first.page %}{% else %}{{ page.bsp_item.first.link }}{% endif %}" class="article-cta theme-text-hover-bg-color">Get</a>
-    </div>
-  </div>
+			</p>
+			<a href="{% if page.bsp_item.first.page %}{% pageurl page.bsp_item.first.page %}{% else %}{{ page.bsp_item.first.link }}{% endif %}"
+				class="article-cta theme-text-hover-bg-color">Get</a>
+		</div>
+	</div>
 </article>
 {% endif %}
 
 <!-- Latest Posts section -->
 <section class='post-section body-bg-color-secondary'>
-  <div class="container">
+	<div class="container">
 
 
-    <!-- Section Title -->
-    <div class="section-title">
-      <hr class='theme-text-color theme-bg-color'>
-      <h2>Latest Posts</h2>
-      <hr class='theme-text-color theme-bg-color'>
-    </div>
-    <!-- /Section Title -->
+		<!-- Section Title -->
+		<div class="section-title">
+			<hr class='theme-text-color theme-bg-color'>
+			<h2>Latest Posts</h2>
+			<hr class='theme-text-color theme-bg-color'>
+		</div>
+		<!-- /Section Title -->
 
 
-    {% include 'blog/includes/cards.html' with blogs=latest_posts %}
+		{% include 'blog/includes/cards.html' with blogs=latest_posts %}
 
-    <!-- Pagination -->
-    <div class="pagination-block">
-      <a href='{% slugurl "all_categories" %}'>Discover more</a>
-    </div>
-    <!-- /Pagination -->
+		<!-- Pagination -->
+		<div class="pagination-block">
+			<a href='{% slugurl "all_categories" %}'>Discover more</a>
+		</div>
+		<!-- /Pagination -->
 
-  </div>
+	</div>
 
 </section>
 <!-- /Latest Posts Section -->
@@ -105,37 +109,37 @@
 
 
 <script>
-  var slideIndex = 1;
-  showSlides(slideIndex);
+	var slideIndex = 1;
+	showSlides(slideIndex);
 
-  // Next/previous controls
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
+	// Next/previous controls
+	function plusSlides(n) {
+		showSlides(slideIndex += n);
+	}
 
-  // Thumbnail image controls
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
+	// Thumbnail image controls
+	function currentSlide(n) {
+		showSlides(slideIndex = n);
+	}
 
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-      slideIndex = 1
-    }
-    if (n < 1) {
-      slideIndex = slides.length
-    }
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-  }
+	function showSlides(n) {
+		var i;
+		var slides = document.getElementsByClassName("mySlides");
+		var dots = document.getElementsByClassName("dot");
+		if (n > slides.length) {
+			slideIndex = 1
+		}
+		if (n < 1) {
+			slideIndex = slides.length
+		}
+		for (i = 0; i < slides.length; i++) {
+			slides[i].style.display = "none";
+		}
+		for (i = 0; i < dots.length; i++) {
+			dots[i].className = dots[i].className.replace(" active", "");
+		}
+		slides[slideIndex - 1].style.display = "block";
+		dots[slideIndex - 1].className += " active";
+	}
 </script>
 {% endblock content %}

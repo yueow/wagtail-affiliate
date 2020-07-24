@@ -10,10 +10,12 @@ header {
     height: 300px;
     min-height: 300px;
 }
+
 .header-content {
     margin-inline: 2rem;
     margin-block: 2rem;
 }
+
 .header-content h1 {
     color: white;
     font-weight: 700;
@@ -21,6 +23,7 @@ header {
     text-transform: capitalize;
     margin-bottom: 0px;
 }
+
 .header-content hr {
     color: #4693aa;
     height: 4px;
@@ -28,6 +31,7 @@ header {
     background-color: #4693aa;
     border: none;
 }
+
 /* */
 
 /* Filter Box */
@@ -43,8 +47,9 @@ header {
 .select-wrapper {
     width: 250px !important;
     text-align: center;
-    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.06),0 6px 30px 5px rgba(0,0,0,0.12),0 8px 10px -7px rgba(0,0,0,0.2);
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.06), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -7px rgba(0, 0, 0, 0.2);
 }
+
 .select-wrapper>input {
     margin-block: 0px;
     border: none;
@@ -70,12 +75,12 @@ header {
     z-index: 2;
 }
 
-.dropdown-content li > span {
+.dropdown-content li>span {
     color: black;
     text-transform: uppercase;
 }
 
-.dropdown-content li > span:hover {
+.dropdown-content li>span:hover {
     color: #4693aa;
 
 }
@@ -86,6 +91,7 @@ header {
     text-transform: uppercase;
     font-weight: 700;
 }
+
 .filter-box p a:hover {
     color: #4693aa;
 
@@ -96,6 +102,7 @@ header {
         display: block;
         text-align: center;
     }
+
     .filter-box .input-field {
         display: inline-block;
     }

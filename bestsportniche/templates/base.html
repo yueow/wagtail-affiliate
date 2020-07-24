@@ -21,9 +21,7 @@
 	{% meta_tags %}
 
 	<!-- Compiled and minified CSS -->
-	<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-	media="screen,projection">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection">
 
 	<!-- JQuery -->
 	<script
@@ -192,7 +190,7 @@
 	<div class="navbar-fixed nav-wrapper-out">
 		<nav class='navbar-bg-color navbar-text-color'>
 			<div class="nav-wrapper container">
-				<a href="{{ page.get_site.root_url }}" class="brand-logo">
+				<a href="{% slugurl 'home' %}" class="brand-logo">
 					<img src="{% static 'img/eagle_logo.png' %}" alt="">
 					<span class='brand-text-color'>Bestsportniche</span></a>
 

@@ -2,15 +2,26 @@ import os
 from .base import *
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': os.environ('DJANGO_DB_NAME'),
+#        'USER': os.environ('DJANGO_DB_USER'),
+#        'PASSWORD': os.environ('DJANGO_DB_PASSWORD'),
+#        'HOST': os.environ('DJANGO_DB_HOST'),
+#        'PORT': '',
+}
+
 DEBUG = True
-#DEBUG = (os.environ.get('DEBUG_VALUE') == "True")
+# DEBUG = (os.environ('DEBUG_VALUE') == "True")
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'q9x0npzk@#e4hfy)0h$ix*=bl$lh2pq&zf_t0e0a#+z#^=d=t('
-#SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY = os.environ('SECRET_KEY')
 
-# SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ['*']
 #ALLOWED_HOSTS = ['3.120.191.123', 'localhost', '127.0.0.1']
 

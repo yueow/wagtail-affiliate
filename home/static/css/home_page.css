@@ -1,4 +1,3 @@
-
 /* Carousel */
 * {
     box-sizing: border-box
@@ -201,9 +200,14 @@ article .container {
 
 #article-cover-image {
     max-width: 400px !important;
-    /* width: 400px !important; */
-    height: 100%;
-    width: 100%;
+    width: 400px !important;
+    /* height: 100%; */
+    /* width: 100%; */
+    
+    margin: 1rem;
+
+    object-fit: cover;
+
 }
 
 .article-content>h3 {

@@ -2,11 +2,11 @@ import json
 
 from django import forms
 from django.db import models
+from django.urls import reverse
 from django.conf.urls import url
-from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.template.loader import render_to_string
-
 
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -123,8 +123,6 @@ class BlogPage(MetadataPageMixin, Page):
 class BlogPageRelatedProduct(Orderable):
     related_page = models.ForeignKey(
         "BlogPage",
-        null=True,
-        blank=True,
         related_name="+",
         on_delete=models.CASCADE,
     )
@@ -155,9 +153,82 @@ class BlogPageGalleryImage(Orderable):
 class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
     template = 'blog/category_page.html'
 
+    @property
+    def blogs(self):
+        # Получить список страниц блога, которые являются потомками этой страницы
+        blogs = BlogPage.objects.live()
+
+        # Сортировать по дате
+        blogs = blogs.order_by('-date')
+
+        return blogs
+
+    @property
+    def categories(self):
+        categories = home_models.Node.objects.get(pk=1).get_children() or None
+        return categories
+
+    # def get_context(self, request):
+        # context = super(BlogIndexPage, self).get_context(request)
+
+        # search_query = request.GET.get('q', None)
+        # if search_query:
+        #     context['blogs'] = BlogPage.objects.search(search_query, fields=['title','body'])
+        #     context['search_term'] = search_query
+        #     context['search_type'] = 'search'
+        #     return context
+
+
+        # allblogs = self.blogs
+        # # categories 
+
+        # page = request.GET.get('page')
+        # paginator = Paginator(allblogs, 6)
+
+        # try:
+        #     blogs = paginator.page(page)
+        # except PageNotAnInteger:
+        #     blogs = paginator.page(1)
+        # except EmptyPage:
+        #     blogs = paginator.page(paginator.num_pages)
+    
+
+        # context['blogs'] = blogs
+
+        # return context
+
+    @route(r'^$', name='all_categories')
+    def all_categories(self, request):
+        context = super(BlogIndexPage, self).get_context(request)
+
+        search_query = request.GET.get('q', None)
+        if search_query:
+            context['blogs'] = BlogPage.objects.search(search_query, fields=['title','body'])
+            context['search_term'] = search_query
+            context['search_type'] = 'search'
+            return render(request, 'blog/category_page.html', context)
+
+
+        allblogs = self.blogs
+        # categories 
+
+        page = request.GET.get('page')
+        paginator = Paginator(allblogs, 6)
+
+        try:
+            blogs = paginator.page(page)
+        except PageNotAnInteger:
+            blogs = paginator.page(1)
+        except EmptyPage:
+            blogs = paginator.page(paginator.num_pages)
+    
+
+        context['blogs'] = blogs
+
+        return render(request, 'blog/category_page.html', context)
 
     # Ajax Filtering
-    @route('filtering_ajax/')
+    @route('filtering_ajax/', name='filtering_ajax')
     def filtering_ajax(self, request, *args, **kwargs):
         if request.is_ajax():
             form_data = json.loads(request.GET.get('form_data'))
@@ -184,7 +255,7 @@ class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
             # Sorting. Sorting gotta occurs after all filters in the order
             # blogs = result_queryset.order_by(cls._FILTER_LIST['sorting'][parsed_JSON['sorting']])
 
-        #  context = super(BlogIndexPage, self).get_context(request)
+            # context = super(BlogIndexPage, self).get_context(request)
 
             data['html_from_view'] = render_to_string(
                 template_name="blog/includes/cards.html", 
@@ -195,46 +266,30 @@ class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
             return JsonResponse(data=data)
         return JsonResponse({'result': None})
 
-    @property
-    def blogs(self):
-        # Получить список страниц блога, которые являются потомками этой страницы
-        blogs = BlogPage.objects.live()
-
-        # Сортировать по дате
-        blogs = blogs.order_by('-date')
-
-        return blogs
-
-    @property
-    def categories(self):
-        categories = home_models.Node.objects.get(pk=1).get_children() or None
-        return categories
-
-    def get_context(self, request):
+    @route(r"^(?P<cat_slug>[-\w]*)/$", name='category_view')
+    def category(self, request, cat_slug):
         context = super(BlogIndexPage, self).get_context(request)
-
-        search_query = request.GET.get('q', None)
-        if search_query:
-            context['blogs'] = BlogPage.objects.search(search_query, fields=['title','body'])
-            context['search_term'] = search_query
-            context['search_type'] = 'search'
-            return context
-
-
-        allblogs = self.blogs
-        # categories 
-
-        page = request.GET.get('page')
-        paginator = Paginator(allblogs, 6)
-
+        print(cat_slug)
+        print('---------------------_')
         try:
-            blogs = paginator.page(page)
-        except PageNotAnInteger:
-            blogs = paginator.page(1)
-        except EmptyPage:
-            blogs = paginator.page(paginator.num_pages)
+            cat = home_models.Node.objects.get(name__iexact=cat_slug)
+            blogs = cat.blogpage_set.all()
+        except:
+            return HttpResponseRedirect('/')
+
+
+        # page = request.GET.get('page')
+        # paginator = Paginator(blogs, 6)
+
+        # try:
+        #     paginated_blogs = paginator.page(page)
+        # except PageNotAnInteger:
+        #     paginated_blogs = paginator.page(1)
+        # except EmptyPage:
+        #     paginated_blogs = paginator.page(paginator.num_pages)
     
-
         context['blogs'] = blogs
+        context['filter_term'] = cat_slug.capitalize()
 
-        return context
+        return render(request, 'blog/category_page.html', context)
+
