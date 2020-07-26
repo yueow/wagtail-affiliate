@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from wagtail.contrib.modeladmin.options import ModelAdmin
-from home.models import Node, NodeButtonHelper
+from home.models import Node, AddChildNodeViewClass
+# from home.models import Node, NodeButtonHelper, AddChildNodeViewClass
 
 class NodeAdmin(ModelAdmin):
     """Class for presenting topics in admin using modeladmin."""
@@ -21,7 +22,7 @@ class NodeAdmin(ModelAdmin):
     inspect_view_fields = ('name', 'get_parent', 'aliases', 'id')
 
     # other overrides
-    button_helper_class = NodeButtonHelper
+    # button_helper_class = NodeButtonHelper
 
     def add_child_view(self, request, instance_pk):
         """Generate a class-based view to provide 'add child' functionality."""

@@ -25,7 +25,6 @@ from treebeard.mp_tree import MP_Node
 from blog.models import BlogPage
 
 
-
 node_name_validator = RegexValidator(
     regex='^[\w][a-zA-Z &]+$',
     message="Letters, numbers and '&' only plus must start with a letter.",
@@ -42,6 +41,7 @@ class Node(index.Indexed, MP_Node):
         help_text='Keep the name short, ideally one word.',
         validators=[node_name_validator, MinLengthValidator(3)]
     )
+    # depth = models.PositiveIntegerField(null=True)
     aliases = models.TextField(
         'Also known as',
         max_length=255,
@@ -59,8 +59,8 @@ class Node(index.Indexed, MP_Node):
     node_order_by = ['node_order_index', 'name']
 
     panels = [
-        # FieldPanel('parent'),  # virtual field - see TopicForm
         FieldPanel('name'),
+        # FieldPanel('parent'),  # virtual field - see TopicForm
         FieldPanel('aliases', widget=forms.Textarea(attrs={'rows': '5'})),
     ]
 
@@ -104,58 +104,6 @@ class Node(index.Indexed, MP_Node):
         verbose_name = 'Topic'
         verbose_name_plural = 'Topics'
 
-
-class BasicNodeChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        depth_line = '->' * (obj.get_depth() - 1)
-        return "{} {}".format(depth_line, super().label_from_instance(obj))
-
-
-class NodeForm(WagtailAdminModelForm):
-
-    parent = BasicNodeChoiceField(
-        required=True,
-        queryset=Node.objects.all(),
-        empty_label=None,
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        instance = kwargs['instance']
-
-        if instance.is_root() or Node.objects.count() == 0:
-            # hide and disable the parent field
-            self.fields['parent'].disabled = True
-            self.fields['parent'].required = False
-            self.fields['parent'].empty_label = 'N/A - Root Node'
-            self.fields['parent'].widget = forms.HiddenInput()
-
-            # update label to indicate this is the root
-            self.fields['name'].label += ' (Root)'
-        elif instance.id:
-            self.fields['parent'].initial = instance.get_parent()
-
-    def save(self, commit=True, *args, **kwargs):
-        instance = super().save(commit=True, *args, **kwargs)
-        parent = self.cleaned_data['parent']
-
-        if not commit:
-            # simply return the instance if not actually saving (committing)
-            return instance
-
-        if instance.id is None:  # creating a new node
-            if Node.objects.all().count() == 0:  # no nodes, creating root
-                Node.add_root(instance=instance)  # add a NEW root node
-            else:  # nodes exist, must be adding node under a parent
-                instance = parent.add_child(instance=instance)
-        else:  # editing an existing node
-            instance.save()  # update existing node
-            if instance.get_parent() != parent:
-                instance.move(parent, pos='sorted-child')
-        return instance
-
-
-Node.base_form_class = NodeForm
 
 
 class NodeButtonHelper(ButtonHelper):
@@ -236,6 +184,59 @@ class AddChildNodeViewClass(CreateView):
     def get_initial(self):
         """Set the selected parent field to the parent_pk."""
         return {'parent': self.parent_pk}
+
+# Forms
+class BasicNodeChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        depth_line = '-' * (obj.get_depth() - 1)
+        return "{} {}".format(depth_line, super().label_from_instance(obj))
+
+
+class NodeForm(WagtailAdminModelForm):
+
+    parent = BasicNodeChoiceField(
+        required=True,
+        queryset=Node.objects.all(),
+        empty_label=None,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = kwargs['instance']
+
+        if instance.is_root() or Node.objects.count() == 0:
+            # hide and disable the parent field
+            self.fields['parent'].disabled = True
+            self.fields['parent'].required = False
+            self.fields['parent'].empty_label = 'N/A - Root Node'
+            self.fields['parent'].widget = forms.HiddenInput()
+
+            # update label to indicate this is the root
+            self.fields['name'].label += ' (Root)'
+        elif instance.id:
+            self.fields['parent'].initial = instance.get_parent()
+
+    def save(self, commit=True, *args, **kwargs):
+        instance = super().save(commit=False, *args, **kwargs)
+        parent = self.cleaned_data['parent']
+
+        if not commit:
+            # simply return the instance if not actually saving (committing)
+            return instance
+
+        if instance.id is None:  # creating a new node
+            if Node.objects.all().count() == 0:  # no nodes, creating root
+                Node.add_root(instance=instance)  # add a NEW root node
+            else:  # nodes exist, must be adding node under a parent
+                instance = parent.add_child(instance=instance)
+        else:  # editing an existing node
+            instance.save()  # update existing node
+            if instance.get_parent() != parent:
+                instance.move(parent, pos='sorted-child')
+        return instance
+
+
+Node.base_form_class = NodeForm
 
 
 # Home Page Model

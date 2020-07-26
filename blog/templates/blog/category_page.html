@@ -36,7 +36,7 @@
 				<select class='dropdown-category' name='categories-input'
 					id='categories-input'>
 					<option value="all" selected>All Categories</option>
-					{% for category in page.categories %}
+					{% for category in categories %}
 					<option value="{{ category.pk }}">{{ category.name }}
 					</option>
 					{% endfor %}

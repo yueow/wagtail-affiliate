@@ -149,28 +149,25 @@ class BlogPageGalleryImage(Orderable):
     ]
 
 
-# 
+# Blog Index Page
 class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
     template = 'blog/category_page.html'
 
     @property
     def blogs(self):
-        # Получить список страниц блога, которые являются потомками этой страницы
         blogs = BlogPage.objects.live()
-
-        # Сортировать по дате
         blogs = blogs.order_by('-date')
 
         return blogs
 
     @property
     def categories(self):
-        categories = home_models.Node.objects.get(pk=1).get_children() or None
+        categories = home_models.Node.objects.get(pk=1).get_children()
         return categories
 
-    # def get_context(self, request):
-        # context = super(BlogIndexPage, self).get_context(request)
-
+    #def get_context(self, request):
+    #    context = super(BlogIndexPage, self).get_context(request)
+#	context['categories'] = self.categories
         # search_query = request.GET.get('q', None)
         # if search_query:
         #     context['blogs'] = BlogPage.objects.search(search_query, fields=['title','body'])
@@ -195,11 +192,12 @@ class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
 
         # context['blogs'] = blogs
 
-        # return context
+        return context
 
     @route(r'^$', name='all_categories')
     def all_categories(self, request):
         context = super(BlogIndexPage, self).get_context(request)
+        context['categories'] = home_models.Node.objects.get(pk=1).get_children()
 
         search_query = request.GET.get('q', None)
         if search_query:
@@ -269,9 +267,8 @@ class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
     @route(r"^(?P<cat_slug>[-\w]*)/$", name='category_view')
     def category(self, request, cat_slug):
         context = super(BlogIndexPage, self).get_context(request)
-        print(cat_slug)
-        print('---------------------_')
         try:
+            blogs = []
             cat = home_models.Node.objects.get(name__iexact=cat_slug)
             blogs = cat.blogpage_set.all()
         except:
