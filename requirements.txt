@@ -17,6 +17,7 @@ idna==2.10
 l18n==2018.5
 Pillow==6.2.2
 psycopg2==2.8.5
+pylibmc==1.6.1
 pytz==2020.1
 requests==2.24.0
 six==1.15.0
