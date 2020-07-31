@@ -74,7 +74,8 @@
 }
 
 .overview {
-    padding-bottom: 30px;
+    margin-block: 2rem;
+    padding-block: 0;
 }
 .overview-header {
     display: flex;
@@ -85,8 +86,16 @@
     background-color: black;
     color: white;
     font-size: 22px;
-
+    margin-block: 0;
     height: 70px;
+}
+
+.overview-body img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .overview-p {
@@ -121,7 +130,6 @@
     /* border-radius: 30px; */
     z-index: 1; 
 }
-   
 .section-btn:hover {
     animation: animate 8s linear infinite;
 }

@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% load static wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
+{% block title %}
+{% if search_term  %}{{ search_term }}
+{% elif filter_term %}{{ filter_term }}
+{% else %}{{ page.title }}{% endif %}
+{% endblock title %}
+
 {% block body_class %}template-homepage{% endblock %}
 
 {% block extra_css %}
@@ -35,7 +41,11 @@
 			<div class="input-field">
 				<select class='dropdown-category' name='categories-input'
 					id='categories-input'>
+					{% if filter_term %}
+					<option value="" selected>{{ filter_term }}</option>
+					{% else %}
 					<option value="all" selected>All Categories</option>
+					{% endif %}
 					{% for category in categories %}
 					<option value="{{ category.pk }}">{{ category.name }}
 					</option>

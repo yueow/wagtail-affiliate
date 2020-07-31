@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
+{% load static general_tags wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -8,6 +8,21 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
 {% endblock extra_css %}
+
+{% get_adv as adv %}
+
+<!-- Advertise block -->
+{% block adv %}
+	{% if adv %}
+	<a href="{% if adv.page %}{% pageurl adv.page %}{% else %}{{ adv.adv_link }}{% endif %}">
+		<div class='advertise-block'>
+			{% if adv.title %}<h2>{{ adv.title }}</h2>{% endif %}
+			{% if adv.description %}<p>{{ adv.description }}</p>{% endif %}
+		</div>
+	</a>
+	{% endif %}
+{% endblock adv %}
+<!-- / -->
 
 {% block content %}
 
@@ -56,22 +71,20 @@
 {% if page.bsp_item.first %}
 <article class='bsp-bg-color bsp-text-color'>
 	<div class="container">
-		<img id='article-cover-image'
-			{% image page.bsp_item.first.image original as bsp_img %}
-			src="{{ bsp_img.url }}" alt="{{ bsp_img.alt }}">
-		<div class='article-content'>
-			<h3>Best selling Product {{ page.bsp_item.first.title }}</h3>
-			<p>{{ page.bsp_item.first.description }}
-				Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-				Reprehenderit
-				minima enim ducimus? Nulla sint voluptate et sit error totam
-				repudiandae, repellat ex neque assumenda molestias facilis omnis
-				quo
-				expedita quae.
-
-			</p>
-			<a href="{% if page.bsp_item.first.page %}{% pageurl page.bsp_item.first.page %}{% else %}{{ page.bsp_item.first.link }}{% endif %}"
-				class="article-cta theme-text-hover-bg-color">Get</a>
+		<div class='row'>
+			<div class="col">
+				<img id='article-cover-image'
+					{% image page.bsp_item.first.image original as bsp_img %}
+					src="{{ bsp_img.url }}" alt="{{ bsp_img.alt }}">
+			</div>
+			<div class="col">
+				<h3><b>Best selling Product -
+						{{ page.bsp_item.first.title }}</b></h3>
+				<p>{{ page.bsp_item.first.description }}
+				</p>
+				<a href="{% if page.bsp_item.first.page %}{% pageurl page.bsp_item.first.page %}{% else %}{{ page.bsp_item.first.link }}{% endif %}"
+					class="article-cta theme-text-hover-bg-color">Get</a>
+			</div>
 		</div>
 	</div>
 </article>

@@ -115,6 +115,7 @@ class BlogPage(MetadataPageMixin, Page):
         FieldPanel('instagram_link'),
         InlinePanel('gallery_images', max_num=6, label="Gallery images"),
         FieldPanel('node', widget=forms.CheckboxSelectMultiple),
+        InlinePanel('adv_block', max_num=1, label="Adv Side Block"),
         InlinePanel('related_items', max_num=3, label="Related Items"),
     ]
 
@@ -274,7 +275,6 @@ class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
         except:
             return HttpResponseRedirect('/')
 
-
         # page = request.GET.get('page')
         # paginator = Paginator(blogs, 6)
 
@@ -290,3 +290,30 @@ class BlogIndexPage(MetadataPageMixin, RoutablePageMixin, Page):
 
         return render(request, 'blog/category_page.html', context)
 
+class AdvBlock(Orderable):
+    title = models.CharField(blank=True, null=True, max_length=100)
+    # description = models.CharField(blank=True, null=True, max_length=250)
+    
+    related_page = models.ForeignKey(
+        "BlogPage",
+        related_name="+",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.CASCADE,
+        related_name='+',
+        blank=True,
+        null=True,
+    )
+    page = ParentalKey(BlogPage, on_delete=models.CASCADE, related_name='adv_block')
+
+    panels = [
+        FieldPanel('title'),
+        # FieldPanel('description'),
+        ImageChooserPanel('image'),
+        PageChooserPanel("related_page"),
+    ]

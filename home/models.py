@@ -243,6 +243,20 @@ Node.base_form_class = NodeForm
 class HomePage(MetadataPageMixin, Page):
     template = 'home/home_page.html'
 
+    # Social links
+    facebook_link = models.URLField(blank=True, null=True)
+    twitter_link = models.URLField(blank=True, null=True)
+    pinterest_link = models.URLField(blank=True, null=True)
+    youtube_link = models.URLField(blank=True, null=True)
+    instagram_link = models.URLField(blank=True, null=True)
+
+    logo = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        related_name='+',
+        null=True,
+        blank=True,
+    )
     # title = models.CharField(max_length=120, blank=True, null=True)
     # intro = RichTextField(blank=True, null=True)
  
@@ -260,9 +274,16 @@ class HomePage(MetadataPageMixin, Page):
     
     content_panels = Page.content_panels + [
         FieldPanel('title'),
+        FieldPanel('facebook_link'),
+        FieldPanel('twitter_link'),
+        FieldPanel('pinterest_link'),
+        FieldPanel('youtube_link'),
+        FieldPanel('instagram_link'),
         InlinePanel('slider_items', max_num=3, label="Slider"),
-        InlinePanel('social_buttons', max_num=5, label="Social Buttons"),
+        # InlinePanel('social_buttons', max_num=5, label="Social Buttons"),
         InlinePanel('bsp_item', max_num=1,  label="Best Selling Product"),
+        ImageChooserPanel('logo'),
+        InlinePanel('adv_block', max_num=1,  label="Advertise Block"),
     ]
 
 
@@ -322,3 +343,35 @@ class BSPItem(Orderable):
         FieldPanel('button_link'),
         PageChooserPanel("page"),
     ]
+
+# Advertise Block
+class AdvBlock(Orderable):
+    title = models.CharField(max_length=52, null=True, blank=True)
+    description = models.CharField(max_length=200, null=True, blank=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        on_delete=models.CASCADE,
+        related_name='+',
+        null=True,
+        blank=True,
+    )
+
+    adv_link = models.URLField(blank=True, null=True)
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+    
+    parental_page = ParentalKey('HomePage', on_delete=models.CASCADE, related_name='adv_block')
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('description'),
+        ImageChooserPanel('image'),
+        FieldPanel('adv_link'),
+        PageChooserPanel("page"),
+    ]
+

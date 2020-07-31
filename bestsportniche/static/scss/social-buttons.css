@@ -11,14 +11,14 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background: rgba(255, 255, 255, 0.5);
+  background: none;
   border-radius: 10px;
   text-align: center;
   /* Helper class to divide the icons */
 }
 
 .social-buttons .social-margin {
-  margin-right: 15px;
+  margin-right: 0.1rem;
 }
 
 .social-buttons .social-icon {
@@ -44,6 +44,7 @@
   /* Github Button Styling */
   /* Youtube Button Styling */
   /* Soundcloud Button Styling */
+  /* Instagram Button Styling */
 }
 
 .social-buttons .social-icon:hover {
@@ -171,5 +172,19 @@
 .social-buttons .social-icon.soundcloud:hover {
   background-color: #ffffff;
   color: #ff3a00;
+}
+
+.social-buttons .social-icon.instagram {
+  font-size: 22px;
+  padding-top: 9px;
+  padding-left: 0px;
+  background-color: #FDC25B;
+  color: #ffffff;
+  border-color: #FDC25B;
+}
+
+.social-buttons .social-icon.instagram:hover {
+  background-color: #ffffff;
+  color: #FDC25B;
 }
 /*# sourceMappingURL=social-buttons.css.map */

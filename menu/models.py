@@ -232,8 +232,11 @@ class ThemeColorScheme(ClusterableModel):
     footer_bg_color = ColorField(default='black')
     footer_text_color = ColorField(default='white')
 
+    # Advertise Block
+    advertise_block_text_color = ColorField(default='white')
+
     # All categories
-    # categories_bg_color = ColorField(default='black')
+    categories_bg_color = ColorField(default='black')
 
     def __str__(self):
         return f'{self.title}'

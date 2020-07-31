@@ -6,7 +6,6 @@
 * {
     /* overflow-y: hidden; */
     box-sizing: border-box;
-
 }
 
 html,
@@ -19,9 +18,9 @@ section {
     overflow-x: hidden;
 }
 
+
 body {
     /* font-family: 'Roboto', sans-serif; */
-    /* font-family: 'Lato', Arial, Helvetica, sans-serif; */
     overflow-x: hidden;
     /* Hide horizontal scrollbar */
 
@@ -96,9 +95,10 @@ nav .input-field {
 
 /* Nav Logo Image */
 .brand-logo>img {
-    width: 64px;
-    height: 64px;
+    height: 70px;
     margin-inline: 0.2rem;
+    width: 250px;
+    margin-bottom: 20px;
 }
 
 /* Nav Logo Text */
@@ -452,7 +452,7 @@ footer {
 }
 
 .brand-logo-footer>img {
-    width: 64px;
+    width: 150px;
 }
 
 .brand-logo-footer>span {
@@ -559,6 +559,23 @@ footer {
 .megamenu-dropdown-area-active {
     visibility: visible;
     opacity: 1;
+}
+
+/* Advertise block */
+.advertise-block {
+    max-height: 256px;
+    height: 300px;
+    width: 100%;
+    margin-inline: auto;
+    text-align: center;
+    color: white;
+    background-color: black;
+    padding-block: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    margin-block: 1rem;
+    max-width: 1000px;
 }
 
 

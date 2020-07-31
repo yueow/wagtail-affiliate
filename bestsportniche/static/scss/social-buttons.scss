@@ -9,158 +9,195 @@ $behance-color: #1769ff;
 $github-color: #4183c4;
 $youtube-color:#bb0000;
 $soundcloud-color:#ff3a00;
+$instagram-color:#FDC25B;
+
 
 .social-buttons-nav {
-  .social-buttons a {
-    background-color: none;
-}
-}
-.social-buttons{
-  display: flex;
-  justify-content: center;
-  background: rgba(256,256,256,0.5);
-  // padding:20px;
-  // padding-bottom: 5px;
-  border-radius:10px;
-  text-align:center;
-  // margin:20px 10px;
-  
-/* Helper class to divide the icons */
-.social-margin {
-  margin-right: 15px;
+    .social-buttons a {
+        background-color: none;
+    }
 }
 
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    background: none;
+    // padding:20px;
+    // padding-bottom: 5px;
+    border-radius: 10px;
+    text-align: center;
+    // margin:20px 10px;
 
-.social-icon {
-  margin-bottom: 15px;
-   box-sizing: border-box;
-  -moz-border-radius: 138px;
-  -webkit-border-radius: 138px;
-  border-radius: 138px;
-  border: 5px solid;
-  text-align: center;
-  width: 50px;
-  height: 50px;
-  display: inline-block;
-  line-height: 1px;
-  padding-top: 11px;
-  transition: all 0.5s;
-  &:hover {
-    transform: rotate(360deg)scale(1.3);
-  }
-  /* Facebook Button Styling */
-  &.facebook {
-    font-size: 22px;
-    padding-top: 9px;
-    border-color: $facebook-color;
-    background-color: $facebook-color;
-    color: #ffffff;
-    &:hover {
-      background-color: #ffffff;
-      color: $facebook-color;
+    /* Helper class to divide the icons */
+    .social-margin {
+        margin-right: 0.1rem;
     }
-  }
-  /* Twitter Button Styling */
-  &.twitter {
-    font-size: 22px;
-    padding-top: 10px;
-    padding-left: 2px;
-    border-color: $twitter-color;
-    background-color: $twitter-color;
-    color: #ffffff;
-    &:hover {
-      background-color: #ffffff;
-      color: $twitter-color;
-    }
-  }
-  /* Google+ Button Styling */
-  &.google-plus {
-    font-size: 22px;
-    padding-top: 9px;
-    padding-left: 2px;
-    background-color: $google-color;
-    color: #ffffff;
-    border-color: $google-color;
-    &:hover {
-      background-color: #ffffff;
-      color: $google-color;
-    }
-  }
-  /* Linkedin Button Styling */
-  &.linkedin {
-    font-size: 24px;
-    padding-top: 8px;
-    padding-left: 1px;
-    background-color: $linkedin-color;
-    color: #ffffff;
-    border-color: $linkedin-color;
-    &:hover {
-      background-color: #ffffff;
-      color: $linkedin-color;
-    }
-  }
-  /* Pinterest Button Styling */
-  &.pinterest {
-    font-size: 22px;
-    padding-top: 9px;
-    background-color: $pinterest-color;
-    color: #ffffff;
-    border-color: $pinterest-color;
-    &:hover {
-      background-color: #ffffff;
-      color: $pinterest-color;
-    }
-  }
-  /* Behance Button Styling */
-  &.behance {
-    font-size: 22px;
-    padding-top: 9px;
-    background-color: $behance-color;
-    color: #ffffff;
-    border-color: $behance-color;
-    &:hover {
-      background-color: #ffffff;
-      color: $behance-color;
-    }
-  }
-  /* Github Button Styling */
-  &.github {
-    font-size: 22px;
-    padding-top: 9px;
-    background-color: $github-color;
-    color: #ffffff;
-    border-color: $github-color;
-    &:hover {
-      background-color: #ffffff;
-      color: $github-color;
-    }
-  }
-  /* Youtube Button Styling */
-  &.youtube {
-    font-size: 22px;
-    padding-top: 9px;
-    padding-left: 0px;
-    background-color: $youtube-color;
-    color: #ffffff;
-    border-color: $youtube-color;
-    &:hover {
-      background-color: #ffffff;
-      color: $youtube-color;
-    }
-  }
-  /* Soundcloud Button Styling */
-  &.soundcloud {
-    font-size: 22px;
-    padding-top: 9px;
-    padding-left: 0px;
-    background-color: $soundcloud-color;
-    color: #ffffff;
-    border-color: $soundcloud-color;
-    &:hover {
-      background-color: #ffffff;
-      color: $soundcloud-color;
-    }
-  }
-}
-}
 
+
+    .social-icon {
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        -moz-border-radius: 138px;
+        -webkit-border-radius: 138px;
+        border-radius: 138px;
+        border: 5px solid;
+        text-align: center;
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        line-height: 1px;
+        padding-top: 11px;
+        transition: all 0.5s;
+
+        &:hover {
+            transform: rotate(360deg)scale(1.3);
+        }
+
+        /* Facebook Button Styling */
+        &.facebook {
+            font-size: 22px;
+            padding-top: 9px;
+            border-color: $facebook-color;
+            background-color: $facebook-color;
+            color: #ffffff;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $facebook-color;
+            }
+        }
+
+        /* Twitter Button Styling */
+        &.twitter {
+            font-size: 22px;
+            padding-top: 10px;
+            padding-left: 2px;
+            border-color: $twitter-color;
+            background-color: $twitter-color;
+            color: #ffffff;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $twitter-color;
+            }
+        }
+
+        /* Google+ Button Styling */
+        &.google-plus {
+            font-size: 22px;
+            padding-top: 9px;
+            padding-left: 2px;
+            background-color: $google-color;
+            color: #ffffff;
+            border-color: $google-color;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $google-color;
+            }
+        }
+
+        /* Linkedin Button Styling */
+        &.linkedin {
+            font-size: 24px;
+            padding-top: 8px;
+            padding-left: 1px;
+            background-color: $linkedin-color;
+            color: #ffffff;
+            border-color: $linkedin-color;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $linkedin-color;
+            }
+        }
+
+        /* Pinterest Button Styling */
+        &.pinterest {
+            font-size: 22px;
+            padding-top: 9px;
+            background-color: $pinterest-color;
+            color: #ffffff;
+            border-color: $pinterest-color;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $pinterest-color;
+            }
+        }
+
+        /* Behance Button Styling */
+        &.behance {
+            font-size: 22px;
+            padding-top: 9px;
+            background-color: $behance-color;
+            color: #ffffff;
+            border-color: $behance-color;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $behance-color;
+            }
+        }
+
+        /* Github Button Styling */
+        &.github {
+            font-size: 22px;
+            padding-top: 9px;
+            background-color: $github-color;
+            color: #ffffff;
+            border-color: $github-color;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $github-color;
+            }
+        }
+
+        /* Youtube Button Styling */
+        &.youtube {
+            font-size: 22px;
+            padding-top: 9px;
+            padding-left: 0px;
+            background-color: $youtube-color;
+            color: #ffffff;
+            border-color: $youtube-color;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $youtube-color;
+            }
+        }
+
+        /* Soundcloud Button Styling */
+        &.soundcloud {
+            font-size: 22px;
+            padding-top: 9px;
+            padding-left: 0px;
+            background-color: $soundcloud-color;
+            color: #ffffff;
+            border-color: $soundcloud-color;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $soundcloud-color;
+            }
+        }
+
+        /* Instagram Button Styling */
+        &.instagram {
+            font-size: 22px;
+            padding-top: 9px;
+            padding-left: 0px;
+            background-color: $instagram-color;
+            color: #ffffff;
+            border-color: $instagram-color;
+
+            &:hover {
+                background-color: #ffffff;
+                color: $instagram-color;
+            }
+        }
+
+    }
+}

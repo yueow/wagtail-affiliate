@@ -7,11 +7,22 @@
 <link rel="stylesheet" href="{% static 'css/blog_page.css' %}">
 <link type="text/css" rel="stylesheet"
     href="{% static 'css/lightslider.min.css' %}" />
-
 {% endblock extra_css %}
 
 {% block title %}{{ page.title }}{% endblock title %}
-
+<!-- Advertise block -->
+{% block adv %}
+{% if adv %}
+<a
+    href="{% if adv.page %}{% pageurl adv.page %}{% else %}{{ adv.adv_link }}{% endif %}">
+    <div class='advertise-block'>
+        {% if adv.title %}<h2>{{ adv.title }}</h2>{% endif %}
+        {% if adv.description %}<p>{{ adv.description }}</p>{% endif %}
+    </div>
+</a>
+{% endif %}
+{% endblock adv %}
+<!-- / -->
 {% block content %}
 <div class="container">
     <!-- Breadcrumb -->
@@ -137,6 +148,15 @@
                     </div>
                 </a>
                 {% endif %}
+                {% if page.instagram_link %}
+                <!-- twitter  Button -->
+                <a href="{{ page.instagram_link }}" target="blank"
+                    class="social-margin">
+                    <div class="social-icon instagram">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                </a>
+                {% endif %}
             </div>
             <!-- /Social Buttons -->
 
@@ -147,7 +167,7 @@
                     href="#subscribe-section-anchor">Sign Up
                     for our newsletter</a></p>
 
-
+            <!-- Info Block -->
             <div class='overview z-depth-4'>
                 <p class='overview-header'>Overview</p>
 
@@ -184,11 +204,29 @@
                     {{ page.dimensions }}
                 </p>
                 {% endif %}
-
-
-
             </div>
+            <!-- / -->
 
+            {% if page.adv_block.first %}
+            {% with page.adv_block.first as adv %}
+
+            <!-- Info Block -->
+            <a href="{% if adv.page %}{{ adv.page }}{% else %}{{ adv.link }}{% endif %}">
+                <div class='overview z-depth-4'>
+                    {% if adv.title %}<p class='overview-header purple'>
+                        {{ adv.title }}</p>{% endif %}
+
+                    <div class="overview-body">
+                        {% if adv.image %}
+                        {% image adv.image original as adv_image %}
+                        <img src="{{ adv_image.url }}" alt="{{ adv.title }}">
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            <!-- / -->
+            {% endwith %}
+            {% endif %}
         </div>
 
     </div>
@@ -203,7 +241,7 @@
     </div>
     <!-- /Section Title -->
     {% include 'blog/includes/cards.html' with blogs=related_items %}
-    
+
     {% else %}
     <div style='margin-bottom: 3rem;'></div>
     {% endif %}

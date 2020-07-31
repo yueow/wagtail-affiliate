@@ -1,5 +1,4 @@
-{% load static general_tags wagtailuserbar wagtailcore_tags wagtailmetadata_tags %}
-
+{% load static general_tags wagtailuserbar wagtailimages_tags wagtailcore_tags wagtailmetadata_tags %}
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 
@@ -11,13 +10,13 @@
 		{% endblock %}
 		{% block title_suffix %}
 		{% with self.get_site.site_name as site_name %}
-		{% if site_name %}- {{ site_name }}{% endif %}
+		{% if site_name %} - {{ site_name }}{% endif %}
 		{% endwith %}
 		{% endblock %}
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	
-	<link rel="shortcut icon" href="{% static 'img/eagle_logo.png' %}" type="image/x-icon">
+	<link rel="shortcut icon" href="{% static 'img/bsn_icon.png' %}" type="image/x-icon">
 	{% meta_tags %}
 
 	<!-- Compiled and minified CSS -->
@@ -42,25 +41,28 @@
 	<link type="text/css" rel="stylesheet"
 		href="{% static 'scss/social-buttons.css' %}" />
 		
-
-		
 	<!-- Fonts -->
 	<link
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap"
 		rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
 		rel="stylesheet">
-
 	{% get_font 'lato' as loaded_fonts %}
 	{% get_theme 'default' as theme %}
 	{% get_social_buttons as social_buttons %}
+	{% get_adv as adv %}
 
 	<style>
 		/* Fonts */
 		@import url({{ loaded_fonts.import_rule }});
+		@font-face {
+		    font-family: 'Comfortaa';
+    		src: URL('../static/fonts/Comfortaa.ttf') format('truetype');
+		}
 
 		* {
 			font-family: '{{ loaded_fonts.css_rule }}',
+			'Comfortaa',
 			'Lato',
 			Arial,
 			Helvetica,
@@ -173,8 +175,23 @@
 
 		/* Categories */
 		.categories-block-bg-color {
-			/* background-color: #{{ theme.footer_bg_color }} !important; */
+			background-color: #{{ theme.categories_bg_color }} !important;
 		}
+
+		/* Advertise Block */
+		{% if adv %}
+		.advertise-block {
+			color: #{{ theme.advertise_block_text_color }} !important;
+			
+			{% image adv.image original as adv_img %}
+			background-image: url('{{ adv_img.url }}');
+			
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		{% endif %}
+
 	</style>
 
 	<!-- Global stylesheets -->
@@ -190,9 +207,18 @@
 	<div class="navbar-fixed nav-wrapper-out">
 		<nav class='navbar-bg-color navbar-text-color'>
 			<div class="nav-wrapper container">
+				{% get_logo as logo %}
+				
+				{% if logo %}
+				{% image logo original %}
 				<a href="{% slugurl 'home' %}" class="brand-logo">
-					<img src="{% static 'img/eagle_logo.png' %}" alt="">
-					<span class='brand-text-color'>Bestsportniche</span></a>
+					<img src="{{ logo.url }}" alt="">
+				</a>
+				{% else %}
+				<a href="{% slugurl 'home' %}" class="brand-logo">
+					<img src="{% static 'img/BSN_LOGO_22.png' %}" alt="">
+				</a>
+				{% endif %}
 
 				<a href="#" data-target="mobile-demo"
 					class="sidenav-trigger brand-text-color"><i
@@ -205,23 +231,60 @@
 					<!-- <li><a href="collapsible.html"><i class="fas fa-search"></i></a></li> -->
 
 
-
+					{% get_social_buttons as social %}
+					{% if social %}
 					<li>
 						<!-- Social Buttons -->
 						<div class="social-buttons social-buttons-nav">
-							{% for button in social_buttons %}
-							<a href="{{ button.link }}" target="blank" class="">
-								<div class="social-icon {{ button.name }}">
-									<i class="fab {{ button.icon_class }}"></i>
+							{% if social.facebook_link %}
+							<!-- facebook  Button -->
+							<a href="{{ social.facebook_link }}" target="blank"
+								class="social-margin">
+								<div class="social-icon facebook">
+									<i class="fab fa-facebook-f"></i>
 								</div>
 							</a>
-							{% endfor %}
+							{% endif %}
+							{% if social.pinterest_link %}
+							<!-- pinterest  Button -->
+							<a href="{{ social.pinterest_link }}" target="blank"
+								class="social-margin">
+								<div class="social-icon pinterest">
+									<i class="fab fa-pinterest-p"></i>
+								</div>
+							</a>
+							{% endif %}
+							{% if social.youtube_link %}
+							<!-- youtube  Button -->
+							<a href="{{ social.youtube_link }}" target="blank"
+								class="social-margin">
+								<div class="social-icon youtube">
+									<i class="fab fa-youtube"></i>
+								</div>
+							</a>
+							{% endif %}
+							{% if social.twitter_link %}
+							<!-- twitter  Button -->
+							<a href="{{ social.twitter_link }}" target="blank"
+								class="social-margin">
+								<div class="social-icon twitter">
+									<i class="fab fa-twitter"></i>
+								</div>
+							</a>
+							{% endif %}
+							{% if social.instagram_link %}
+							<!-- twitter  Button -->
+							<a href="{{ social.instagram_link }}" target="blank"
+								class="social-margin">
+								<div class="social-icon instagram">
+									<i class="fab fa-instagram"></i>
+								</div>
+							</a>
+							{% endif %}
 						</div>
-						<!-- /Social Buttons -->
-
-
-
 					</li>
+					<!-- /Social Buttons -->
+					{% endif %}
 					<!-- Nav Searchbar -->
 					<li>
 						<div class="search-container">
@@ -251,10 +314,10 @@
 	{% get_menu "subnav-megamenu" as menu %}
 	{% include 'blog/includes/megamenu.html' with menu=menu %}
 
+	{% block adv %}{% endblock %}
 
 	{% block content %}{% endblock %}
-
-
+	
 	<!-- Subscribe Section -->
 	<div id='subscribe-section-anchor' class="subscribe-section-wrapper">
 		<div class="container subscribe-section z-depth-4">
@@ -295,9 +358,8 @@
 				<div class="col l6 s12">
 					<h5>
 						<a href="#!" class="brand-logo brand-logo-footer">
-							<img src="{% static 'img/eagle_logo.png' %}" alt="">
-							<span class=''>Bestsportniche</span></a>
-
+							<img src="{% static 'img/bsn_icon.png' %}" alt="">
+						</a>
 					</h5>
 					<p class="footer-text-color">
 						{{ footer.description }}
@@ -321,20 +383,57 @@
 				<div class="col l4 offset-l2 s12">
 					<div>
 						<h4 class='footer-text-color bold-text'>Follow Us</h4>
-						<!-- Social Buttons -->
-						<div
-							class="social-buttons social-buttons-nav footer-bg-color">
-
-							{% for button in social_buttons %}
-							<a href="{{ button.link }}" target="blank" class="">
-								<div class="social-icon {{ button.name }}">
-									<i class="fab {{ button.icon_class }}"></i>
-								</div>
-							</a>
-							{% endfor %}
-
-						</div>
-						<!-- /Social Buttons -->
+						{% if social %}
+							<!-- Social Buttons -->
+							<div class="social-buttons social-buttons-nav">
+								{% if social.facebook_link %}
+								<!-- facebook  Button -->
+								<a href="{{ social.facebook_link }}" target="blank"
+									class="social-margin">
+									<div class="social-icon facebook">
+										<i class="fab fa-facebook-f"></i>
+									</div>
+								</a>
+								{% endif %}
+								{% if social.pinterest_link %}
+								<!-- pinterest  Button -->
+								<a href="{{ social.pinterest_link }}" target="blank"
+									class="social-margin">
+									<div class="social-icon pinterest">
+										<i class="fab fa-pinterest-p"></i>
+									</div>
+								</a>
+								{% endif %}
+								{% if social.youtube_link %}
+								<!-- youtube  Button -->
+								<a href="{{ social.youtube_link }}" target="blank"
+									class="social-margin">
+									<div class="social-icon youtube">
+										<i class="fab fa-youtube"></i>
+									</div>
+								</a>
+								{% endif %}
+								{% if social.twitter_link %}
+								<!-- twitter  Button -->
+								<a href="{{ social.twitter_link }}" target="blank"
+									class="social-margin">
+									<div class="social-icon twitter">
+										<i class="fab fa-twitter"></i>
+									</div>
+								</a>
+								{% endif %}
+								{% if social.instagram_link %}
+								<!-- twitter  Button -->
+								<a href="{{ social.instagram_link }}" target="blank"
+									class="social-margin">
+									<div class="social-icon instagram">
+										<i class="fab fa-instagram"></i>
+									</div>
+								</a>
+								{% endif %}
+							</div>
+							<!-- /Social Buttons -->
+							{% endif %}
 					</div>
 					<h5 class="footer-text-color bold-text">Contact</h5>
 					<ul>

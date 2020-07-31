@@ -161,6 +161,10 @@
     }
 }
 
+.no-wrap {
+    flex-wrap: nowrap !important;
+}
+
 /* Header */
 .header-title {
     color: white;
@@ -198,6 +202,10 @@ article .container {
 
 }
 
+article>.container>div.row {
+    flex-wrap: nowrap;
+}
+
 #article-cover-image {
     max-width: 400px !important;
     width: 400px !important;
@@ -208,15 +216,6 @@ article .container {
 
     object-fit: cover;
 
-}
-
-.article-content>h3 {
-    color: white;
-    font-weight: 700;
-}
-
-.article-content>p {
-    color: white;
 }
 
 .article-cta {
@@ -281,13 +280,18 @@ article .container {
     background-color: #EFEFEF;
 }
 
-
 @media (max-width: 992px) {
     article div {
         flex-wrap: wrap;
     }
     .article-cta {
         margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    article>.container>div.row {
+        flex-wrap: wrap;
     }
 }
 
