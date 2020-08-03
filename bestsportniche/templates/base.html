@@ -47,19 +47,21 @@
 		rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
 		rel="stylesheet">
-	{% get_font 'lato' as loaded_fonts %}
+	{% get_font 'default' as loaded_fonts %}
 	{% get_theme 'default' as theme %}
 	{% get_social_buttons as social_buttons %}
 	{% get_adv as adv %}
 
 	<style>
 		/* Fonts */
-		@import url({{ loaded_fonts.import_rule }});
 		@font-face {
 		    font-family: 'Comfortaa';
     		src: URL('../static/fonts/Comfortaa.ttf') format('truetype');
 		}
 
+		{% if loaded_fonts %}
+		@import url({{ loaded_fonts.import_rule }});
+		
 		* {
 			font-family: '{{ loaded_fonts.css_rule }}',
 			'Comfortaa',
@@ -68,6 +70,8 @@
 			Helvetica,
 			sans-serif;
 		}
+		{% endif %}
+
 
 		/* Theme */
 		.theme-bg-color {

@@ -12,16 +12,16 @@
 {% get_adv as adv %}
 
 <!-- Advertise block -->
+{% if adv %}
 {% block adv %}
-	{% if adv %}
 	<a href="{% if adv.page %}{% pageurl adv.page %}{% else %}{{ adv.adv_link }}{% endif %}">
 		<div class='advertise-block'>
 			{% if adv.title %}<h2>{{ adv.title }}</h2>{% endif %}
 			{% if adv.description %}<p>{{ adv.description }}</p>{% endif %}
 		</div>
 	</a>
-	{% endif %}
 {% endblock adv %}
+{% endif %}
 <!-- / -->
 
 {% block content %}

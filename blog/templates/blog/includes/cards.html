@@ -9,7 +9,12 @@
         <div class="card">
             <a href="{% pageurl blog %}">
                 <div class="card-image">
+                {% if  blog.gallery_images.first.image %}
                     {% image blog.gallery_images.first.image original as img %}
+                {% elif  blog.thumbnail %}
+                    {% image blog.thumbnail original as img %}
+                {% endif %}
+                    
                     <img src="{{ img.url }}" alt='{{ img.alt }}'>
                 </div>
                 <div class="card-content">

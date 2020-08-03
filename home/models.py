@@ -5,6 +5,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.admin.utils import quote, unquote
 from django.core.validators import MinLengthValidator, RegexValidator
 from django.core.exceptions import PermissionDenied
+from queryset_sequence import QuerySetSequence
+
 
 from modelcluster.fields import ParentalKey
 from wagtail.core.models import Page, Orderable
@@ -22,7 +24,7 @@ from django.template.loader import render_to_string
 from wagtailmetadata.models import MetadataPageMixin
 
 from treebeard.mp_tree import MP_Node
-from blog.models import BlogPage
+from blog.models import BlogPage, ReviewPage
 
 
 node_name_validator = RegexValidator(
@@ -257,18 +259,16 @@ class HomePage(MetadataPageMixin, Page):
         null=True,
         blank=True,
     )
-    # title = models.CharField(max_length=120, blank=True, null=True)
-    # intro = RichTextField(blank=True, null=True)
  
     def get_context(self, request):
         # Обновляем контекст для внесения только опубликованных постов в обратном хронологическом порядке
         context = super().get_context(request)
-        featured_posts = BlogPage.objects.all()[:6]
-        latest_posts = BlogPage.objects.all()[:6]
+        
+        featured_posts = QuerySetSequence(BlogPage.objects.all()[:6], ReviewPage.objects.all()[:6])
+        latest_posts = QuerySetSequence(BlogPage.objects.all()[:6], ReviewPage.objects.all()[:6])
+        
         context['featured_posts'] = featured_posts
         context['latest_posts'] = latest_posts
-
-        # context['bsp_item'] = 
 
         return context
     
@@ -280,7 +280,6 @@ class HomePage(MetadataPageMixin, Page):
         FieldPanel('youtube_link'),
         FieldPanel('instagram_link'),
         InlinePanel('slider_items', max_num=3, label="Slider"),
-        # InlinePanel('social_buttons', max_num=5, label="Social Buttons"),
         InlinePanel('bsp_item', max_num=1,  label="Best Selling Product"),
         ImageChooserPanel('logo'),
         InlinePanel('adv_block', max_num=1,  label="Advertise Block"),

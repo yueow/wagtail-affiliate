@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
@@ -139,3 +139,5 @@ BASE_URL = 'https://localhost'
 WAGTAILADMIN_BASE_URL = 'https://localhost'
 
 TEST_NON_SERIALIZED_APPS = ['django.contrib.contenttypes', 'django.contrib.auth']
+
+# X_FRAME_OPTIONS = 'ALLOWALL'

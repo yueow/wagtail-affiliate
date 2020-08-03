@@ -57,35 +57,6 @@
             <h4 class='bold-text'>{{ page.title }}</h4>
             <p>{{ page.body|richtext }}</p>
 
-            {% comment %} <h4 class='bold-text'>Lorem Title</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
-                pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
-                non et tempora excepturi illo ullam molestias praesentium velit
-                eveniet sunt. Quam, aspernatur.
-
-            </p>
-            <h4 class='bold-text'>Product Features</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
-                pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
-                non et tempora excepturi illo ullam molestias praesentium velit
-                eveniet sunt. Quam, aspernatur.
-
-            </p>
-            <h4 class='bold-text'>Benefits</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
-                pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
-                non et tempora excepturi illo ullam molestias praesentium velit
-                eveniet sunt. Quam, aspernatur.
-
-            </p>
-            <h4 class='bold-text'>Downsides</h4>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cumque,
-                pariatur consequatur ab, quaerat dolorem aperiam saepe itaque
-                non et tempora excepturi illo ullam molestias praesentium velit
-                eveniet sunt. Quam, aspernatur.
-
-            </p> {% endcomment %}
-
             <div style='margin-inline: auto; width: 300px;'>
                 <a href="{{ page.affiliate_link }}"
                     class="btn bold-text section-btn">Check
@@ -160,8 +131,8 @@
             </div>
             <!-- /Social Buttons -->
 
-            <p><a class='btn waves-effect bold-text embed-btn'
-                    href="#">Embed</a></p>
+            <p><a class='btn waves-effect bold-text embed-btn modal-trigger'
+                    href="#embed-modal">Embed</a></p>
 
             <p><a class='btn white-text sub-btn'
                     href="#subscribe-section-anchor">Sign Up
@@ -211,7 +182,8 @@
             {% with page.adv_block.first as adv %}
 
             <!-- Info Block -->
-            <a href="{% if adv.page %}{{ adv.page }}{% else %}{{ adv.link }}{% endif %}">
+            <a
+                href="{% if adv.page %}{{ adv.page }}{% else %}{{ adv.link }}{% endif %}">
                 <div class='overview z-depth-4'>
                     {% if adv.title %}<p class='overview-header purple'>
                         {{ adv.title }}</p>{% endif %}
@@ -249,19 +221,63 @@
 
 </div>
 
+<!-- Modal Structure -->
+<div id="embed-modal" class="modal">
+    <div class="modal-content">
+        <h4 class='bold-text'>Embed this Product</h4>
+        
+        <h5 class='bold-text'>Share</h5>
+            <!-- AddToAny BEGIN -->
+            <div class="a2a_kit a2a_kit_size_32 a2a_default_style modal-social">
+            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+            <a class="a2a_button_facebook"></a>
+            <a class="a2a_button_twitter"></a>
+            <a class="a2a_button_email"></a>
+            <a class="a2a_button_pinterest"></a>
+            <a class="a2a_button_reddit"></a>
+            <a class="a2a_button_telegram"></a>
+            <a class="a2a_button_whatsapp"></a>
+            <a class="a2a_button_evernote"></a>
+            <a class="a2a_button_skype"></a>
+            <a class="a2a_button_copy_link"></a>
+            <a class="a2a_button_pocket"></a>
+            </div>
+            <!-- AddToAny END -->
+
+        <h5 class='bold-text'>Copy the code</h5>
+
+        <code class='grey left text-white'>
+        &lt;iframe src="https://bestsportsniche.com{% pageurl page %}" width="600px" height="320px">&lt;/iframe>
+        </code>
+
+        <iframe class='center' src="{% pageurl page %}" width="600px" height="320px"></iframe>
+
+
+    </div>
+    <div class="modal-footer">
+        <a href="#!"
+            class="modal-close waves-effect waves-green btn-flat">Ok</a>
+    </div>
+</div>
 
 
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/lightslider.min.js' %}"></script>
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
 <script type="text/javascript">
-    $('#lightSlider').lightSlider({
-        gallery: true,
-        item: 1,
-        loop: true,
-        slideMargin: 0,
-        thumbItem: 9
+    $(document).ready(function () {
+        $('.modal').modal();
+
+        $('#lightSlider').lightSlider({
+            gallery: true,
+            item: 1,
+            loop: true,
+            slideMargin: 0,
+            thumbItem: 9
+        });
     });
 </script>
 

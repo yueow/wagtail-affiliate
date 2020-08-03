@@ -561,6 +561,64 @@ footer {
     opacity: 1;
 }
 
+.section-btn {
+    /* position: absolute; */
+    /* top: 50%; */
+    /* left: 50%; */
+    transform: translate(0, 0);
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    color: #fff;
+    font-size: 16px;
+    /* font-size: 24px; */
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    background: linear-gradient(90deg, #03a9f4, #f441a4, #ffeb3b, #03a9f4);
+    background-size: 400%;
+    /* border-radius: 30px; */
+    z-index: 1;
+}
+
+.section-btn:hover {
+    animation: animate 8s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 400%;
+    }
+}
+
+.section-btn:before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    right: -5px;
+    left: -5px;
+    z-index: -1;
+    background: linear-gradient(90deg, #03a9f4, #f441a4, #ffeb3b, #03a9f4);
+    background-size: 400%;
+    border-radius: 40px;
+    filter: blur(20px);
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.section-btn:hover:before {
+    filter: blur(20px);
+    opacity: 1;
+    animation: animate 8s linear infinite;
+}
+
 /* Advertise block */
 .advertise-block {
     max-height: 256px;
@@ -578,6 +636,45 @@ footer {
     max-width: 1000px;
 }
 
+/* Overview Card */
+
+.overview {
+    margin-block: 2rem;
+    padding-block: 0;
+}
+
+.overview-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-transform: uppercase;
+    background-color: black;
+    color: white;
+    font-size: 22px;
+    margin-block: 0;
+    height: 70px;
+}
+
+.overview-body img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.overview-p {
+    display: flex;
+    justify-content: center;
+
+    margin-block: 5px;
+
+}
+
+.overview-p span {
+    margin-right: 10px;
+}
 
 /* Media Queries */
 

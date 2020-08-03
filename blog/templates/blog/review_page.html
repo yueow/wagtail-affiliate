@@ -1,0 +1,253 @@
+{% extends 'base.html'%}
+{% load static general_tags wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
+
+{% block title %}{{ page.title }}{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/review_page.css' %}">
+<link type="text/css" rel="stylesheet"
+    href="{% static 'css/lightslider.min.css' %}" />
+
+<style>
+    @media (max-width: 768px) {
+        header {
+            {% image page.thumbnail original as thumb_img %}
+            background-image: url('{{ thumb_img.url }}');
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-size: cover;
+        }
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="container">
+    <header>
+        <div class="review-header-block">
+            <!-- Breadcrumb -->
+
+            <nav>
+                <div class="nav-wrapper">
+                    <div class="col s12">
+                        <a href="{% slugurl 'home' %}"
+                            class="breadcrumb">Home</a>
+                        <a href="{% slugurl 'all_categories' %}"
+                            class="breadcrumb">All Reviews</a>
+                        <a href="#!" class="breadcrumb">{{ page.title }}</a>
+                    </div>
+                </div>
+            </nav>
+            <!-- / -->
+            {% if page.date %}<p class='review-header-date'>Uploaded on
+                {{ page.date }}</p>{% endif %}
+            <hr>
+            <h1 class='review-title'>{{ page.title }}</h1>
+
+            <!-- Best Items -->
+            {% if best_items %}
+            <div class="review-cards">
+
+                {% for best_item in best_items %}
+                <div class="review-card z-depth-4">
+                    <div class="review-bi-badge">
+
+                        {% if best_item.premium_pick %}
+                        <p class='review-bi-badge-title'>Premium Pick</p>
+                        <p class='review-bi-badge-icon'><i
+                                class="material-icons">star</i></p>
+                        {% elif best_item.best_value %}
+                        <p class='review-bi-badge-title'>Best Value</p>
+                        <p class='review-bi-badge-icon'><i
+                                class="material-icons">attach_money</i></p>
+                        {% elif best_item.best_choice %}
+                        <p class='review-bi-badge-title'>Best Choice</p>
+                        <p class='review-bi-badge-icon'><i
+                                class="material-icons">looks_one</i></p>
+                        {% endif %}
+
+                    </div>
+                    {% image best_item.thumbnail original as bi_thumbnail %}
+                    <img src="{{ bi_thumbnail.url }}" alt="">
+                    <hr>
+                    <p class='review-card-title'>{{ best_item.title }}</p>
+                    <hr>
+
+                    <a href=" {{ best_item.affiliate_link }}"
+                        class="btn bold-text section-btn">Check
+                        price {% if best_item.affiliate_name %}on
+                        {{ best_item.affiliate_name }}{% endif %}</a>
+                </div>
+                {% endfor %}
+
+            </div>
+            {% endif %}
+            <!-- /Best Items -->
+
+        </div>
+
+        {% image page.thumbnail original as thumbnail %}
+        <img class='review-thumbnail' src="{{ thumbnail.url }}"
+            alt="{{ page.title }}">
+    </header>
+    <!-- <a class='bold-text' href="#">Show Contents</a> -->
+    <ul class="collapsible overview z-depth-4">
+        <li>
+            <div class="collapsible-header overview-header">Contents</div>
+
+            <div class="collapsible-body overview-body">
+                <div class="collapsible-content-wrapper">
+                    <ul>
+                        {% if page.review_items.first %}
+                        <li><a
+                                href="#{{ page.review_items.first.title }}">{{ page.rating_title }}</a>
+                        </li>
+                        {% endif %}
+
+                        {% for element in page.review_items.all %}
+                        <li><a href="#{{ element.title }}">{{ forloop.counter }}
+                                {{ element.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+
+        </li>
+    </ul>
+
+
+    <p>{{ page.before_description|safe }}</p>
+    <h3 class='center bold-text'>{{ page.rating_title }}</h3>
+
+    <!-- Review Rating Cards -->
+    <div class="review-rating-cards">
+
+        {% for ritem in page.review_items.all %}
+        <!-- Review Rating Card -->
+        <div id='{{ ritem.title }}' class="review-rating-card z-depth-4">
+
+            <!-- Review Rating Card Header -->
+            <div class="review-rating-card-header">
+                <div class="container diamond-shape">
+                    <div class="item-count">{{ forloop.counter }}</div>
+                </div>
+
+                <h2>{{ ritem.title }}</h2>
+
+                <!-- Badge -->
+                {% if ritem.premium_pick %}
+                <p class='review-rating-header-badge'><i
+                        class="material-icons">star</i> Premium Pick</p>
+                {% elif ritem.best_value %}
+                <p class='review-rating-header-badge'><i
+                        class="material-icons">attach_money</i> Best Value</p>
+                {% elif ritem.best_choice %}
+                <p class='review-rating-header-badge'><i
+                        class="material-icons">looks_one</i> Best Choice</p>
+                {% endif %}
+                <!--  -->
+
+            </div>
+
+            <!-- Review Rating Card Thumbnail -->
+            {% if ritem.review_images.all.count > 1 %}
+            <div class="demo">
+                <ul id="lightSlider">
+                    {% for image in ritem.review_images.all %}
+                    {% image image.image original as image_inst %}
+                    <li data-thumb="{{ image_inst.url }}">
+                        <img src="{{ image_inst.url }}"
+                            alt="{{ image_inst.alt }}" />
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% else %}
+            <img src="https://images.pexels.com/photos/214574/pexels-photo-214574.jpeg?cs=srgb&dl=pexels-sebastian-voortman-214574.jpg&fm=jpg"
+                alt="">
+            {% endif %}
+
+            <!-- Review Rating Card Link -->
+            <a href="{{ ritem.affiliate_link }}"
+                class="btn bold-text section-btn">Check
+                price {% if ritem.affiliate_name %}on
+                {{ ritem.affiliate_name }}{% endif %}</a>
+
+            <!-- Review Rating Card Description -->
+            <p class='review-rating-card-description'>{{ ritem.description }}
+            </p>
+
+            <!-- Review Rating Card Features -->
+            <div class='review-rating-card-features'>
+                {% if ritem.review_feature.all %}
+                <div class="col">
+                    <!-- !Change Design of Key Features -->
+                    <p class="review-rating-card-feature-title">Key Features</p>
+                    <ul>
+                        {% for feature in ritem.review_feature.all %}
+                        <li>{{ feature.feature }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% if ritem.review_spec.all %}
+                <div class="col">
+                    <p class="review-rating-card-feature-title">Specification
+                    </p>
+                    {% for spec in ritem.review_spec.all %}
+                    <p class=""><span class="grey-text">{{ spec.title }}</span>
+                        {{ spec.value }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <!--  -->
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- Read Items -->
+    {% if read_items %}
+    <!-- Section Title -->
+    <div class="section-title">
+        <hr>
+        <h2>Read Products</h2>
+        <hr>
+    </div>
+    <!-- /Section Title -->
+    {% include 'blog/includes/cards.html' with blogs=read_items %}
+
+    {% else %}
+    <div style='margin-bottom: 3rem;'></div>
+    {% endif %}
+<!-- /Read Items -->
+
+
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/lightslider.min.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Collapsible Element
+        $('.collapsible').collapsible();
+
+        // LightSlider Image Gallery
+        $('#lightSlider').lightSlider({
+            gallery: true,
+            item: 1,
+            loop: true,
+            slideMargin: 0,
+            thumbItem: 9
+        });
+
+    });
+</script>
+
+{% endblock %}

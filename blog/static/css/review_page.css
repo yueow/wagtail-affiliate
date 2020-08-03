@@ -1,0 +1,357 @@
+/* Review Header */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24rem;
+}
+
+.review-thumbnail {
+    width: 100%;
+    max-height: 400px;
+    object-position: bottom;
+    object-fit: cover;
+    /* box-shadow: 0 0 0 999em rgba(0,0,0,0.8); */
+}
+
+.review-header-block {
+    position: absolute;
+    top: 100px;
+    text-align: center;
+
+}
+
+.review-header-block hr:first-of-type {
+    height: 2px;
+    width: 60px;
+    background-color: white;
+    border: none;
+
+}
+
+.review-title {
+    color: white;
+    font-weight: 700;
+    font-size: 26px;
+}
+
+/* Breadcrumb */
+.review-header-block nav {
+    background-color: rgb(0, 0, 0, 0);
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.breadcrumb {
+    color: white;
+    font-weight: 700;
+
+}
+
+/* Review Cards */
+.review-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Review Card */
+.review-card {
+    background-color: white;
+    color: black;
+    width: 350px;
+    max-width: 400px;
+    max-height: 600px;
+    text-align: center;
+
+    border: 1px solid darkgrey;
+}
+
+.review-card:hover {
+    border: 1px solid #4693aa;
+}
+
+/* Review Bage */
+.review-bi-badge {
+    /* background-color: teal; */
+
+    font-weight: 700;
+    color: white;
+    border-style: solid;
+    border-color: transparent transparent #4693aa transparent;
+    border-width: 0 25px 25px 25px;
+    height: 0;
+    width: 200px;
+    box-sizing: content-box;
+    position: relative;
+    margin: 0 0 50px 0;
+
+    top: -20px;
+    /* display: inline-flex; */
+    margin-inline: auto;
+
+}
+
+.review-bi-badge:after {
+    content: "";
+    position: absolute;
+    top: 24px;
+    left: -25px;
+    width: 150px;
+    height: 0;
+    border-style: solid;
+    border-color: #4693aa transparent transparent transparent;
+    border-width: 40px 50px 0 50px;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.review-bi-badge-title {
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+.review-bi-badge-icon {
+    position: absolute;
+    color: white;
+    z-index: 1;
+    left: 100px;
+}
+
+.review-card-title {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.review-card>hr:first-of-type {
+    height: 2px;
+    width: 60px;
+    background-color: #4693aa;
+    border: none;
+}
+
+.review-card>hr:last-of-type {
+    height: 2px;
+    width: 100%;
+    background-color: darkgray;
+    border: none;
+}
+
+.review-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+}
+
+.review-card .section-btn {
+    margin: 20px;
+    max-width: 300px;
+}
+
+/* Review Rating Card */
+.review-rating-card {
+    /* border: 1px solid darkgrey; */
+    width: 100%;
+    text-align: center;
+    padding-bottom: 1rem;
+    margin-block: 1rem;
+}
+
+.review-rating-card-header {
+    display: flex;
+    padding: 2rem 2rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-rating-card-header h2 {
+    margin: 0;
+    margin-left: 10rem;
+    font-weight: 700;
+}
+
+.review-rating-card img {
+    width: 100%;
+    max-height: 700px;
+    object-fit: contain;
+}
+
+.review-rating-card .section-btn {
+    width: 400px;
+    margin-block: 1rem;
+}
+
+.review-rating-card-description {
+    padding-inline: 3rem;
+    text-align: justify;
+}
+
+.review-header-date {
+    text-transform: uppercase;
+    color: #4693aa;
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
+}
+
+.review-rating-card-features {
+    margin-block: 2rem;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.review-rating-card-features .col {}
+
+.review-rating-card-features ul {
+    margin-block: 0;
+    list-style: none;
+}
+
+/* Remove default bullets */
+.review-rating-card-features ul li::before {
+    content: "\2022";
+    /* Add content: \2022 is the CSS Code/unicode for a bullet */
+    color: #4693aa;
+    /* Change the color */
+    font-weight: bold;
+    /* If you want it to be bold */
+    display: inline-block;
+    /* Needed to add space between the bullet and the text */
+    width: 1em;
+    /* Also needed for space (tweak if needed) */
+    margin-left: -1em;
+}
+
+.review-rating-card-feature-title {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 1rem;
+}
+
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 0;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    /* paddi */
+}
+
+.collapsible-content-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.collapsible-body {
+    background-color: white;
+    border: none;
+    cursor: auto;
+}
+
+.collapsible-body li {
+    margin-block: .5rem;
+}
+
+.collapsible-body a {
+    color: black;
+    font-weight: 700;
+    text-decoration: underline;
+
+}
+
+.collapsible-body a:hover {
+    color: #4693aa;
+}
+
+/* Diamond */
+
+.diamond-shape {
+    position: absolute;
+    background: #4693aa;
+    height: 40px;
+    text-align: center;
+    transform: rotate(45deg);
+    width: 40px !important;
+    color: white;
+    margin-left: 5rem;
+}
+
+.item-count {
+    color: #333;
+    display: table-cell;
+    height: 40px;
+    transform: rotate(-45deg);
+    vertical-align: middle;
+    width: 40px;
+    color: white;
+    font-weight: 700;
+}
+
+.review-rating-header-badge {
+    display: flex;
+    color: white;
+    background-color: #4693aa;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 0.7rem 2rem;
+    border-radius: 5px;
+}
+
+/* Gallery */
+.active {
+    background-color: white !important;
+}
+
+.lSPager {
+    margin-inline-start: 4rem !important;
+    margin-inline-end: 4rem !important;
+    margin-inline: 4rem !important;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active,
+.collapsible:hover {
+    background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+    .breadcrumb {
+        font-size: 12px;
+    }
+
+    .review-header-block {
+        position: static;
+    }
+
+
+
+    .review-thumbnail {
+        display: none;
+    }
+}
+
+@media (max-width: 670px) {
+    .review-rating-header-badge {
+        display: none;
+    }
+}
