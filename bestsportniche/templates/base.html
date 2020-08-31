@@ -227,13 +227,7 @@
 				<a href="#" data-target="mobile-demo"
 					class="sidenav-trigger brand-text-color"><i
 						class="material-icons">menu</i></a>
-
-
-
 				<ul class="right hide-on-med-and-down">
-
-					<!-- <li><a href="collapsible.html"><i class="fas fa-search"></i></a></li> -->
-
 
 					{% get_social_buttons as social %}
 					{% if social %}
@@ -310,8 +304,6 @@
 		</nav>
 	</div>
 	<!-- /Nav -->
-
-
 
 
 	<!-- Megamenu -->
@@ -479,11 +471,9 @@
 
 
 
-	<!-- megamenu js -->
+	<!-- Megamenu -->
 	<script>
 		$(document).ready(function () {
-
-
 			let mobMenu = function (event) {
 				event.preventDefault();
 				$('.nav-wrapper').toggleClass('nav-ul-mob');
@@ -491,7 +481,6 @@
 				$('.nav-wrapper-out').toggleClass('navbar-fixed');
 
 				$('.subnav').toggleClass('subnav-mob');
-				// $('.subnav').toggleClass('subnav-mob-visible');
 				$('.megamenu-dropdown-area').toggleClass(
 					'megamenu-dropdown-area-mob');
 
@@ -516,38 +505,19 @@
 				if (window.innerWidth >= 992 && !($('.nav-wrapper-out')
 						.hasClass('navbar-fixed'))) {
 					$('.nav-wrapper-out').addClass('navbar-fixed');
-					// $('.subnav').removeClass('subnav-mob-hidden');
 					console.log('fixNav');
 				}
 				if (window.innerWidth < 992 && $('.nav-wrapper').hasClass(
 						'nav-ul-mob')) {
 					$('.nav-wrapper-out').removeClass('navbar-fixed');
-					// $('.subnav').removeClass('subnav-mob-hidden');
 					console.log('fixNav');
 				}
-
-
-
-				// if (window.innerWidth < 992 && $('.nav-wrapper-out').hasClass('navbar-fixed')) {
-				// 	$('.nav-wrapper-out').removeClass('navbar-fixed');
-				// }
-
 			}
 
 			let lazyLayout = _.debounce(fixNav, 300);
 			$(window).resize(lazyLayout);
-			// $(window).resize(fixNav);
-
 		});
 	</script>
-	<!-- Waypoints -->
-	{% comment %} <script
-		src="https://cdnjs.cloudflare.com/ajax/libs/infinity/0.2.2/infinity.min.js">
-	</script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js">
-	</script> {% endcomment %}
-
 	{% block extra_js %}
 	{% endblock %}
 </body>
